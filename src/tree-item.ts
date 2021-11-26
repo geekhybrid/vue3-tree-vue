@@ -1,7 +1,8 @@
 import { defineComponent, nextTick, onMounted, PropType, ref } from "vue";
-import { TreeItemOptions, TreeViewItem, TreeViewItemEvent } from "./types";
+import { TreeViewItem, TreeViewItemEvent } from "./types";
 
 export default defineComponent({
+    inheritAttrs: true,
     props: {
         item: {
             type: Object as PropType<TreeViewItem>,
@@ -11,9 +12,12 @@ export default defineComponent({
             type: Function as PropType<TreeViewItemEvent>,
             required: true
         },
-        options : {
-            type: Object as PropType<TreeItemOptions>
+        isCheckable : {
+            type: Boolean
         },
+        canRename: {
+            type: Boolean
+        }
     },
     emits: ["on-rename", "changed"],
 
@@ -27,9 +31,7 @@ export default defineComponent({
         const renameBox = ref<HTMLInputElement>();
 
         const beginRenaming = () => {
-            if (!props.options) return;
-
-            if (!props.options.canRename) return;
+            if (!props.canRename) return;
 
             isRenaming.value = true;
             nextTick().then(() => renameBox.value?.focus());
