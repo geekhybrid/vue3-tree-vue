@@ -66,8 +66,12 @@ li.drag-over {
     transition: .2s;
 }
 
-.chevron-right .right-90 {
-    transform: rotateZ(90deg);
+.pointer {
+    cursor: pointer;
+}
+
+.chevron-right.rotate-90::after { 
+    transform: rotateZ(45deg);
 }
 
 .chevron-right::after {

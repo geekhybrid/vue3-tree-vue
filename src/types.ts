@@ -12,7 +12,5 @@ export interface ItemCheckedChangedEvent {
     status: CheckedState
 }
 
-export type TreeViewItemEvent = (item: TreeViewItem) => void;
 export type IsValidDropCallback = (droppedItem: TreeViewItem, dropHost: TreeViewItem) => boolean;
 export type CheckedState = 'True' | 'False' | 'Indeterminate';
-export type SelectionMode = 'Single' | 'Multiple';

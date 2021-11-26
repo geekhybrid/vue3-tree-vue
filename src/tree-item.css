@@ -1,0 +1,5 @@
+.tree-item-selected {
+    background: rgb(39, 39, 78);
+    padding: 0.2em;
+    color: white;
+}

@@ -18,13 +18,19 @@
                     <slot v-bind="treeViewItem" name="prepend-icon">
                     </slot>
                 </div>
-                <treeview-item class="my-1 pointer" :item="treeViewItem" :isCheckable="isCheckable"
+                <treeview-item class="my-1 pointer" :item="treeViewItem" :isCheckable="isCheckable" :selected-item="selectedItem"
+                    @selected="onItemSelected"
                     @contextmenu.prevent="$emit('onContextMenu', { item: treeViewItem, event: $event })"/>
             </div>
             
             <div class="node-child hide" :class="{'hide-guidelines': hideGuideLines}" 
                 v-if="treeViewItem.children && treeViewItem.children.length > 0" >
-                <tree-view :items="treeViewItem.children" :hideGuideLines="hideGuideLines || true" :isNested="true" :isCheckable="isCheckable"
+                <tree-view :items="treeViewItem.children" :hideGuideLines="hideGuideLines || true"
+                        :isNested="true"
+                        @update:selectedItem="onItemSelected"
+                        :selectedItem="selectedItem"
+                        :selectedItems="selectedItems"
+                        :isCheckable="isCheckable"
                         @onContextMenu="$emit('onContextMenu', $event)">
                         <template v-for="(_, slot) of $slots" v-slot:[slot]="props">
                             <slot :name="slot" v-bind="props"/>

@@ -1,5 +1,5 @@
 import { defineComponent, PropType } from "vue";
-import { IsValidDropCallback, SelectionMode, TreeViewItem } from "./types";
+import { IsValidDropCallback, TreeViewItem } from "./types";
 import TreeItemComponent from "./tree-item.vue";
 import { useTreeViewItemMouseActions } from "../src/composables/use-tree-mouse-actions";
 
@@ -11,9 +11,11 @@ export default defineComponent({
             required: true,
             default: () => { return []}
         },
-        selectionMode: {
-            type: Object as PropType<SelectionMode>,
-            default: ''
+        selectedItem: {
+            type: Object as PropType<TreeViewItem>,
+        },
+        selectedItems: {
+            type: Array as PropType<TreeViewItem[]>
         },
         isCheckable: {
             type: Boolean
@@ -28,8 +30,8 @@ export default defineComponent({
         }
     },
     components: { 'treeview-item': TreeItemComponent },
-
-    setup() {
+    emits: ['update:selectedItem', 'update:selectedItems', 'onContextMenu'],
+    setup(_, { emit}) {
         const toggleVisiblity = (nodeId: string, event: InputEvent): void => {
             const element = document.getElementById(nodeId)?.getElementsByClassName('node-child');
             const target = event.target as HTMLInputElement;
@@ -39,9 +41,16 @@ export default defineComponent({
             target.classList.toggle('rotate-90');
             element[0].classList.toggle('hide');
         };
+        
+        /*** When a single item is selected and selectionMode == 'Single'*/
+        const onItemSelected = (item: TreeViewItem) => emit('update:selectedItem', item);
+        /*** When a single item is selected and selectionMode == 'Multiple'*/
+        const onItemsSelected = (selectedItems: TreeViewItem[]) => emit('update:selectedItems', selectedItems);
 
         return {
             toggleVisiblity,
+            onItemSelected,
+            onItemsSelected,
             ...useTreeViewItemMouseActions()
         }
     }

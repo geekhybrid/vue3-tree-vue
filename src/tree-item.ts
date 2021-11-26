@@ -1,5 +1,5 @@
-import { defineComponent, nextTick, onMounted, PropType, ref } from "vue";
-import { TreeViewItem, TreeViewItemEvent } from "./types";
+import { computed, defineComponent, nextTick, onMounted, PropType, ref } from "vue";
+import { TreeViewItem } from "./types";
 
 export default defineComponent({
     inheritAttrs: true,
@@ -8,21 +8,21 @@ export default defineComponent({
             type: Object as PropType<TreeViewItem>,
             required: true
         },
-        onCheckedChanged: {
-            type: Function as PropType<TreeViewItemEvent>,
-            required: true
-        },
         isCheckable : {
             type: Boolean
         },
         canRename: {
             type: Boolean
+        },
+        selectedItem: {
+            type: Object as PropType<TreeViewItem>            
         }
     },
-    emits: ["on-rename", "changed"],
+    emits: ["on-rename", "changed", "selected"],
 
     setup(props, { emit }){
         const isChecked = ref(false);
+        const isSelected = computed(() => props.selectedItem?.id == props.item.id);
 
         const updateCheckState = () => emit("changed", { item: props.item, status: isChecked ? 'True' : 'False' })
         onMounted(() => isChecked.value = props.item.checkedStatus == 'True' ? true : false);
@@ -46,6 +46,7 @@ export default defineComponent({
 
         return {
             isChecked,
+            isSelected,
             updateCheckState,
             isRenaming,
             beginRenaming,
