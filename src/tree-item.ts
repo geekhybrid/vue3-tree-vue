@@ -1,5 +1,5 @@
 import { defineComponent, nextTick, onMounted, PropType, ref } from "vue";
-import { TreeItemOptions, TreeViewItem, TreeViewItemEvent } from "../types";
+import { TreeItemOptions, TreeViewItem, TreeViewItemEvent } from "./types";
 
 export default defineComponent({
     props: {

@@ -1,7 +1,7 @@
 import { defineComponent, PropType } from "vue";
-import { IsValidDropCallback, SelectionMode, TreeViewItem } from "../types";
+import { IsValidDropCallback, SelectionMode, TreeViewItem } from "./types";
 import TreeItemComponent from "../tree-item/tree-item.vue";
-import { useTreeViewItemMouseActions } from "../use-tree-mouse-actions";
+import { useTreeViewItemMouseActions } from "../src/composables/use-tree-mouse-actions";
 
 export default defineComponent({
     props: {
