@@ -1,9 +1,10 @@
 import { defineComponent, PropType } from "vue";
 import { IsValidDropCallback, SelectionMode, TreeViewItem } from "./types";
-import TreeItemComponent from "../tree-item/tree-item.vue";
+import TreeItemComponent from "./tree-item.vue";
 import { useTreeViewItemMouseActions } from "../src/composables/use-tree-mouse-actions";
 
 export default defineComponent({
+    name: 'tree-view',
     props: {
         items: {
             type: Array as PropType<TreeViewItem[]>,
@@ -13,6 +14,9 @@ export default defineComponent({
         selectionMode: {
             type: Object as PropType<SelectionMode>,
             default: ''
+        },
+        isCheckable: {
+            type: Boolean
         },
         hideGuideLines : {
             type: Boolean,
@@ -29,7 +33,7 @@ export default defineComponent({
         const toggleVisiblity = (nodeId: string, event: InputEvent): void => {
             const element = document.getElementById(nodeId)?.getElementsByClassName('node-child');
             const target = event.target as HTMLInputElement;
-    
+            
             if (!element) return;
             
             target.classList.toggle('rotate-90');

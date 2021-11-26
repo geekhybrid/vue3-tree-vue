@@ -7,7 +7,7 @@ type InstallableComponent = typeof Tree & { install: Exclude<Plugin['install'], 
 export default ((): InstallableComponent => {
   const installable = Tree as unknown as InstallableComponent;
   installable.install = (app: App) => {
-    app.component('Vue3TreeVue', installable);
+    app.component('vue3-tree-vue', installable);
   };
   return installable;
 })();

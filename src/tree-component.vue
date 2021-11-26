@@ -12,28 +12,28 @@
             @dragleave.stop="removeHoverClass">
 
             <div class="d-flex align-items-center" @contextmenu.prevent="$emit('onContextMenu', { item: treeViewItem, event: $event })">
-                <div class="horizontal-dashes" />
+                <div class="horizontal-dashes" v-if="$attrs.isNested" />
                 <span class="chevron-right" v-if="treeViewItem.children && treeViewItem.children.length > 0" @click="toggleVisiblity(treeViewItem.id, $event)"></span>
                 <div class="icon-area">
-                    <slot v-bind="treeViewItem">
+                    <slot v-bind="treeViewItem" name="prepend-icon">
                     </slot>
                 </div>
-                <treeview-item class="my-1 pointer" :item="treeViewItem"
+                <treeview-item class="my-1 pointer" :item="treeViewItem" :isCheckable="isCheckable"
                     @contextmenu.prevent="$emit('onContextMenu', { item: treeViewItem, event: $event })"/>
             </div>
             
-            <div class="node-child hide" :class="{'hide-guidelines': hideGuideLines}">
-                <tree-view :items="treeViewItem.children" nested :hideGuideLines="hideGuideLines"
-                    @onContextMenu="$emit('onContextMenu', $event)"
-                    v-if="treeViewItem.children && treeViewItem.children.length > 0" >
-                    <template v-for="(_, slot) of $slots" v-slot:[slot]="props">
-                        <slot :name="slot" v-bind="props"/>
-                    </template>
+            <div class="node-child hide" :class="{'hide-guidelines': hideGuideLines}" 
+                v-if="treeViewItem.children && treeViewItem.children.length > 0" >
+                <tree-view :items="treeViewItem.children" :hideGuideLines="hideGuideLines || true" :isNested="true" :isCheckable="isCheckable"
+                        @onContextMenu="$emit('onContextMenu', $event)">
+                        <template v-for="(_, slot) of $slots" v-slot:[slot]="props">
+                            <slot :name="slot" v-bind="props"/>
+                        </template>
                 </tree-view>
             </div>
         </li>
     </ul>
 </template>
 
-<script src="./tree-component.ts" lang="ts" />
-<style scoped lang="scss" src="./tree.scss" />
+<style scoped src="./tree-component.css" />
+<script src="./tree-component.ts" lang="ts" />   
