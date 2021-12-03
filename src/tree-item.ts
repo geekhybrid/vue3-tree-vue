@@ -1,5 +1,6 @@
-import { computed, defineComponent, nextTick, onMounted, PropType, ref } from "vue";
-import { TreeViewItem } from "./types";
+import { computed, defineComponent, nextTick, onMounted, onUnmounted, PropType, ref, watch } from "vue";
+import { cascadeStateToDescendants, notifyParentOfSelection } from "./composables/use-tree-traversal";
+import { TreeState, TreeViewItem } from "./types";
 
 export default defineComponent({
     inheritAttrs: true,
@@ -16,16 +17,41 @@ export default defineComponent({
         },
         selectedItem: {
             type: Object as PropType<TreeViewItem>            
+        },
+        treeState: {
+            type: Object as PropType<TreeState>
         }
     },
-    emits: ["on-rename", "changed", "selected"],
+    emits: ["on-rename"],
 
-    setup(props, { emit }){
-        const isChecked = ref(false);
+    setup(props, { emit, attrs }){
+        const checkbox = ref<HTMLInputElement>();
         const isSelected = computed(() => props.selectedItem?.id == props.item.id);
+        const parent = computed<TreeViewItem>(() => attrs.parent as TreeViewItem);
 
-        const updateCheckState = () => emit("changed", { item: props.item, status: isChecked ? 'True' : 'False' })
-        onMounted(() => isChecked.value = props.item.checkedStatus == 'True' ? true : false);
+        onMounted(() => props.treeState?.trackNode(props.item, parent.value));
+        onUnmounted(() => props.treeState?.untrackNode(props.item));
+
+        const updateCheckState = () =>  {
+            props.item.checkedStatus = checkbox.value?.checked == true ? 'true' : 'false';
+            props.treeState!.emitItemCheckedChange(props.item);
+            notifyParentOfSelection(props.item!, props.treeState!);
+            cascadeStateToDescendants(props.item!, props.treeState!);
+        };
+
+        watch(
+            () => props.item.checkedStatus, 
+            () => {
+                if (props.item.checkedStatus == 'indeterminate') {
+                    checkbox.value!.indeterminate = true;
+                }
+                else 
+                {
+                    checkbox.value!.indeterminate = false;
+                    checkbox.value!.checked = props.item.checkedStatus == 'true' ? true : false
+                }
+            }
+        );
 
         const isRenaming = ref(false);
         const renameBox = ref<HTMLInputElement>();
@@ -45,12 +71,13 @@ export default defineComponent({
         }
 
         return {
-            isChecked,
             isSelected,
             updateCheckState,
             isRenaming,
             beginRenaming,
-            finishRenaming
+            finishRenaming,
+            parent,
+            checkbox
         }
     }
 })
