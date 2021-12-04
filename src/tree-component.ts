@@ -2,7 +2,7 @@ import { IsValidDropCallback, TreeState, TreeViewItem } from "./types";
 import TreeItemComponent from "./tree-item.vue";
 import { useTreeViewItemMouseActions } from "../src/composables/use-tree-mouse-actions";
 import { useGraph } from "./composables/use-graph";
-import { computed, defineComponent, PropType } from "vue";
+import { computed, defineComponent, onMounted, PropType, ref } from "vue";
 
 export default defineComponent({
     name: 'tree-view',
@@ -38,7 +38,7 @@ export default defineComponent({
     setup(props, { emit, attrs}) {
         const parent = computed<TreeViewItem>(() => attrs.parent as TreeViewItem);
 
-        const treeState = computed<TreeState>(() => props.treeState ?? 
+        const treeState = ref<TreeState>(props.treeState ?? 
             useGraph(
                 props.selectedItem,
                 (selectedItem) => emit('update:selectedItem', selectedItem),
@@ -55,6 +55,15 @@ export default defineComponent({
             target.classList.toggle('rotate-90');
             element[0].classList.toggle('hide');
         };
+
+        onMounted(() => {
+            treeState.value = props.treeState ?? 
+            useGraph(
+                props.selectedItem,
+                (selectedItem) => emit('update:selectedItem', selectedItem),
+                props.checkedItems,
+                (checkedItems) => emit('update:checkedItems', checkedItems));
+        })
 
         return {
             toggleVisiblity,

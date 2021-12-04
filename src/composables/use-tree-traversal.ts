@@ -38,13 +38,14 @@ export const notifyParentOfSelection = (child: TreeViewItem, state: TreeState): 
     if (!parent) return;
 
     const isEveryChildChecked = parent.children?.every(child => child.checkedStatus == 'true');
+    const hasIntermediate = parent.children?.some(child => child.checkedStatus == 'indeterminate');
     const hasAnUncheckedChild = parent.children?.some(child => child.checkedStatus == 'false' || !child.checkedStatus);
     const hasACheckedChild = parent.children?.some(child => child.checkedStatus == 'true');    
 
     if (isEveryChildChecked) {
         parent.checkedStatus = 'true';
     }
-    else if (hasAnUncheckedChild && hasACheckedChild) {
+    else if (hasIntermediate || (hasAnUncheckedChild && hasACheckedChild)) {
         parent.checkedStatus = 'indeterminate';
     } else {
         parent.checkedStatus = 'false';
