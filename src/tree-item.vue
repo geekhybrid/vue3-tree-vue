@@ -1,5 +1,5 @@
 <template>
-    <div class="pointer" :class="{'tree-item-selected': !isCheckable && isSelected}" style="width: 100%">
+    <div class="pointer" :class="{'selected-tree-item': !isCheckable && isSelected}" style="width: 100%">
         <div v-if="!isRenaming" @dblclick="beginRenaming">
             <div v-if="isCheckable" style="display: flex">
                 <input @contextmenu.prevent @change="updateCheckState" type="checkbox" ref="checkbox" />
