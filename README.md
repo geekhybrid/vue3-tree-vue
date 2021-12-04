@@ -1,6 +1,6 @@
 A Simple vue3 project for rendering items in a tree.
 
-
+`npm i vue3-tree-vue`
 ## Handling Selected Items:
 
 ```html
