@@ -1,0 +1,71 @@
+[
+    {
+      "name": "Rejection Emails",
+      "id": 1,
+      "type": "emails",
+      "children": [       
+                {
+                    "name": "List of Rejection Emails",
+                    "id": 3,
+                    "type": ".excel"
+                },    
+                {
+                    "name": "Handling Rejection Through Open-sourcing User Guide",
+                    "id": 13,
+                    "type": ".doc"
+                },    
+                {
+                    "name": "Leet Code Tracking Sheet",
+                    "id": 313898098,
+                    "type": "folder",
+                    "children": [
+                    {
+                        "name": "Solved Problems (30)",
+                        "type": ".excel",
+                        "id": 9230923
+                    },
+                    {
+                        "name": "Unsolved Problems (5000)",
+                        "type": "folder",
+                        "id": 92309353213,
+                        
+                    "children": [
+                      {
+                          "name": "Inverting a linked list (lol)",
+                          "id": 3274842,
+                          "type": ".playlist"
+                      },    
+                      {
+                          "name": "Decoding hieroglyphs",
+                          "id": 325747398434,
+                          "type": ".playlist"
+                      }
+                    ]
+              }
+            ]
+          }
+      ]
+    },
+    {
+      "name": "System Design Playlist",
+      "id": 2,
+      "type": ".playlist",
+      "children": [       
+          {
+            "name": "Space Station Design",
+            "id": 32,
+            "type": ".playlist"
+          },    
+          {
+            "name": "Gabbage Collector Design",
+            "id": 32534,
+            "type": ".playlist"
+          },
+          {
+            "name": "Design Extra-Terrestrial Life Support",
+            "type": ".playlist",
+            "id": 92309213
+          }
+      ]
+    }
+  ]

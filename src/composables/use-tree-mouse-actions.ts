@@ -1,4 +1,4 @@
-import { TreeViewItem } from "./types";
+import { TreeViewItem } from "../types";
 
 export function useTreeViewItemMouseActions() {
     const addHoverClass = (event: DragEvent): void => {
@@ -27,16 +27,13 @@ export function useTreeViewItemMouseActions() {
         if (event.dataTransfer) {
             const droppedNode = JSON.parse(event.dataTransfer.getData('text/plain')) as TreeViewItem;
 
-            this.removeHoverClass(event)
+            removeHoverClass(event)
 
             if (droppedNode.id === dropHost.id) {
                 return
             }
             
             if (!isDropValid(droppedNode, dropHost)) return;
-                
-            this.viewModel.removeTreeViewItem(droppedNode.id);
-            this.viewModel.addTreeViewItem(droppedNode);
         }
     }
 
