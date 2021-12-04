@@ -1,14 +1,15 @@
 <template>
     <div class="pointer" :class="{'tree-item-selected': !isCheckable && isSelected}" style="width: 100%">
-        <slot name="prepend-icon">
-        </slot>
         <div v-if="!isRenaming" @dblclick="beginRenaming">
-            <div v-if="isCheckable">
+            <div v-if="isCheckable" style="display: flex">
                 <input @contextmenu.prevent @change="updateCheckState" type="checkbox" ref="checkbox" />
+                <div style="margin-left: 0.4em; margin-right: 0.4em">
+                    <slot name="icon"></slot>
+                </div>
                 <label for="checkbox" v-if="!isRenaming">{{ item.name }}</label>
-                <input v-model="item.name" v-else />
+                <!-- <input v-model="item.name" v-else /> -->
             </div>
-            <span v-else @click="treeState?.emitItemSelected(item)" >{{ item.name }}</span>
+            <span v-else @click="treeState?.emitItemSelected(item)"><slot name="icon"></slot> {{ item.name }}</span>
         </div>
         <input
             ref="rename-box"

@@ -1,8 +1,8 @@
-import { computed, defineComponent, PropType } from "vue";
 import { IsValidDropCallback, TreeState, TreeViewItem } from "./types";
 import TreeItemComponent from "./tree-item.vue";
 import { useTreeViewItemMouseActions } from "../src/composables/use-tree-mouse-actions";
 import { useGraph } from "./composables/use-graph";
+import { computed, defineComponent, PropType } from "vue";
 
 export default defineComponent({
     name: 'tree-view',

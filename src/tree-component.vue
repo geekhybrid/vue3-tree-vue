@@ -19,14 +19,16 @@
                         :class="{'hide-chevron': !treeViewItem.children || treeViewItem.children.length < 1}"
                         @click="toggleVisiblity(treeViewItem.id, $event)">
                     </span>
-                    <div class="icon-area"><slot v-bind="treeViewItem" name="prepend-icon"></slot></div>
-                    <treeview-item class="my-1 pointer"
+
+                    <treeview-item class="pointer tree-view-item"
                         :item="treeViewItem"
                         :parent="parent"
                         :isCheckable="isCheckable"
                         :selectedItem="selectedItem"
                         :treeState="treeState"
-                        @contextmenu.prevent="$emit('onContextMenu', { item: treeViewItem, event: $event })" />
+                        @contextmenu.prevent="$emit('onContextMenu', { item: treeViewItem, event: $event })">
+                        <template v-slot:icon><slot name="item-prepend-icon" v-bind="treeViewItem"></slot></template>
+                    </treeview-item>
             </div>
             
             <div class="node-child hide"
