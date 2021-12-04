@@ -1,7 +1,23 @@
 {
   "name": "vue3-tree-vue",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geekhybrid/vue3-tree-vue.git"
+  },
+  "keywords": [
+    "Vue 3",
+    "TreeView",
+    "Hierachical",
+    "Recursive",
+    "Composition API",
+    "Tree",
+    "Typescript",
+    "Flexible TreeView"
+  ],
+  "author": "Enyi Francis Hocaha",
   "main": "dist/vue3-tree-vue.ssr.js",
   "browser": "dist/vue3-tree-vue.esm.js",
   "module": "dist/vue3-tree-vue.esm.js",
