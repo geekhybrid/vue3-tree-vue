@@ -3,6 +3,7 @@ import json from './tree.json';
 import Vue3TreeVue from '@/tree-component.vue';
 import { ref } from '@vue/reactivity';
 import { defineComponent } from '@vue/runtime-core';
+import '@/style.css';
 
 export default defineComponent({
   name: 'ServeDev',
@@ -34,6 +35,8 @@ export default defineComponent({
           :hideGuideLines="false"
           v-model:selectedItem="selectedItem"
           v-model:checkedItems="selectedItems"
+          :expandedTypes="['emails', 'folder']"
+          :expandedIds="[9]"
           style="width: 500px; display: block; border-right: 1px solid gray">
           <template v-slot:item-prepend-icon="treeViewItem" >
               <img src="./assets/folder.svg" alt="folder" 
@@ -56,6 +59,9 @@ export default defineComponent({
               <img src="./assets/email.png"
                   v-if="treeViewItem.type === 'emails'"
                   height="20" width="20">
+          </template>
+          <template v-slot:item-prepend>
+            <div style="background: red; height: 18px; width: 18px; margin-right: 0.2em" ></div>
           </template>
         </vue3-tree-vue>
 

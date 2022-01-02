@@ -6,38 +6,38 @@
       "children": [       
                 {
                     "name": "List of Rejection Emails",
-                    "id": 3,
+                    "id": 2,
                     "type": ".excel"
                 },    
                 {
                     "name": "Handling Rejection Through Open-sourcing User Guide",
-                    "id": 13,
+                    "id": 3,
                     "type": ".doc"
                 },    
                 {
                     "name": "Leet Code Tracking Sheet",
-                    "id": 313898098,
+                    "id": 4,
                     "type": "folder",
                     "children": [
                     {
                         "name": "Solved Problems (30)",
                         "type": ".excel",
-                        "id": 9230923
+                        "id": 5
                     },
                     {
                         "name": "Unsolved Problems (5000)",
                         "type": "folder",
-                        "id": 92309353213,
+                        "id": 6,
                         
                     "children": [
                       {
                           "name": "Inverting a linked list (lol)",
-                          "id": 3274842,
+                          "id": 7,
                           "type": ".playlist"
                       },    
                       {
                           "name": "Decoding hieroglyphs",
-                          "id": 325747398434,
+                          "id": 8,
                           "type": ".playlist"
                       }
                     ]
@@ -48,23 +48,23 @@
     },
     {
       "name": "System Design Playlist",
-      "id": 2,
+      "id": 9,
       "type": ".playlist",
       "children": [       
           {
             "name": "Space Station Design",
-            "id": 32,
+            "id": 10,
             "type": ".playlist"
           },    
           {
             "name": "Gabbage Collector Design",
-            "id": 32534,
+            "id": 11,
             "type": ".playlist"
           },
           {
             "name": "Design Extra-Terrestrial Life Support",
             "type": ".playlist",
-            "id": 92309213
+            "id": 12
           }
       ]
     }
