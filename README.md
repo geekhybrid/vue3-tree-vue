@@ -58,9 +58,17 @@ A Simple vue3 project for rendering items in a tree.
 | selectedItem | `undefined`   | Defines the item that is selected on the tree
 | checkedItems | An empty array | Defines the items that are checked on the tree
 | isCheckable | `false` | Defines if items can be selected (one at a time) or selected (using a checkbox)
+| expandedTypes | An empty array | Defines an array of strings. Each node which a `type` present in this array will be expanded by default.
+| expandedIds | An empty array | Defines an array of strings. Each node which an `id` present in this array will be expanded by default.
 
 ## Styles
 
 | Class | Description |
 | ----------- |-------------
 | selected-tree-item | Defines the style for the `selectedItem`
+
+## Slots
+| Name | Description |
+| ----------- |-------------
+| item-prepend-icon | Defines the node's prepend icon.
+| item-prepend | Defines a slot to house an content before the node's label. 

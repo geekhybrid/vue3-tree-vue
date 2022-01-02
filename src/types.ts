@@ -16,9 +16,9 @@ export interface TreeState {
     getParent(childId: string): TreeViewItem | undefined;
     trackNode(childNode: TreeViewItem, parentNode: TreeViewItem): void;
     untrackNode(childNode: TreeViewItem): void;
-
     emitItemSelected(node: TreeViewItem): void;
     emitItemCheckedChange(node: TreeViewItem): void;
+    isNodeExpanded(id: string, type: string): boolean;
 }
 
 export interface TreeEvents {
