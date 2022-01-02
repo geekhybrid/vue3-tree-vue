@@ -2,7 +2,7 @@ import { IsValidDropCallback, TreeState, TreeViewItem } from "./types";
 import TreeItemComponent from "./tree-item.vue";
 import { useTreeViewItemMouseActions } from "../src/composables/use-tree-mouse-actions";
 import { useGraph } from "./composables/use-graph";
-import { computed, defineComponent, onMounted, PropType, ref } from "vue";
+import { computed, defineComponent, PropType, ref } from "vue";
 
 export default defineComponent({
     name: 'tree-view',
@@ -31,42 +31,34 @@ export default defineComponent({
         },
         treeState: {
             type: Object as PropType<TreeState>
+        },
+        expandedTypes: {
+            type: Object as PropType<string[]>,
+            default: () => []
+        },
+        expandedIds: {
+            type: Object as PropType<string[]>,
+            default: () => []
         }
     },
     components: { 'treeview-item': TreeItemComponent },
     emits: ['update:selectedItem', 'update:checkedItems', 'onContextMenu'],
+    
     setup(props, { emit, attrs}) {
         const parent = computed<TreeViewItem>(() => attrs.parent as TreeViewItem);
 
-        const treeState = ref<TreeState>(props.treeState ?? 
-            useGraph(
+        const treeState = ref<TreeState>();
+        var expandedKeys = new Set<string>([...props.expandedTypes, ...props.expandedIds]);
+            // Create a tree state object for only root nodes.
+        treeState.value = props.treeState ?? useGraph(
                 props.selectedItem,
                 (selectedItem) => emit('update:selectedItem', selectedItem),
                 props.checkedItems,
-                (checkedItems) => emit('update:checkedItems', checkedItems))
-            );
-
-        const toggleVisiblity = (nodeId: string, event: InputEvent): void => {
-            const element = document.getElementById(nodeId)?.getElementsByClassName('node-child');
-            const target = event.target as HTMLInputElement;
-            
-            if (!element) return;
-            
-            target.classList.toggle('rotate-90');
-            element[0].classList.toggle('hide');
-        };
-
-        onMounted(() => {
-            treeState.value = props.treeState ?? 
-            useGraph(
-                props.selectedItem,
-                (selectedItem) => emit('update:selectedItem', selectedItem),
-                props.checkedItems,
-                (checkedItems) => emit('update:checkedItems', checkedItems));
-        })
+                (checkedItems) => emit('update:checkedItems', checkedItems),
+                (id: string, type: string) => expandedKeys.has(id) || expandedKeys.has(type)
+        );
 
         return {
-            toggleVisiblity,
             ...useTreeViewItemMouseActions(),
             parent,
             treeState

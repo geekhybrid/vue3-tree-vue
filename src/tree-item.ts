@@ -22,14 +22,19 @@ export default defineComponent({
             type: Object as PropType<TreeState>
         }
     },
-    emits: ["on-rename"],
+    emits: ["on-rename", "onContextMenu"],
 
     setup(props, { emit, attrs }){
         const checkbox = ref<HTMLInputElement>();
         const isSelected = computed(() => props.selectedItem?.id == props.item.id);
         const parent = computed<TreeViewItem>(() => attrs.parent as TreeViewItem);
 
-        onMounted(() => props.treeState?.trackNode(props.item, parent.value));
+        onMounted(() => {
+            props.treeState?.trackNode(props.item, parent.value);
+            if (props.treeState?.isNodeExpanded(props.item.id, props.item.type)) {
+                toggleExpand();
+            }
+        });
         onUnmounted(() => props.treeState?.untrackNode(props.item));
 
         const updateCheckState = () =>  {
@@ -70,7 +75,18 @@ export default defineComponent({
             emit("on-rename", props.item);
         }
 
+        const chevron = ref<HTMLSpanElement>();
+        const toggleExpand = () => {
+            chevron.value?.classList.toggle("rotate-90");
+            const element = document.getElementById(props.item.id)?.getElementsByClassName('node-child');
+            
+            if (!element) return;
+            element[0].classList.toggle('hide');
+        }
+
         return {
+            toggleExpand,
+            chevron,
             isSelected,
             updateCheckState,
             isRenaming,

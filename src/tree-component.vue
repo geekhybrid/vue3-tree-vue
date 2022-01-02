@@ -11,25 +11,16 @@
             @dragover.stop="addHoverClass"
             @dragleave.stop="removeHoverClass">
 
-            <div class="d-flex align-items-center"
+            <treeview-item class="pointer tree-view-item"
+                :item="treeViewItem"
+                :parent="parent"
+                :isCheckable="isCheckable"
+                :selectedItem="selectedItem"
+                :treeState="treeState"
                 @contextmenu.prevent="$emit('onContextMenu', { item: treeViewItem, event: $event })">
-                    <div class="horizontal-dashes"
-                        v-if="$attrs.isNested" />
-                    <span class="chevron-right"
-                        :class="{'hide-chevron': !treeViewItem.children || treeViewItem.children.length < 1}"
-                        @click="toggleVisiblity(treeViewItem.id, $event)">
-                    </span>
-
-                    <treeview-item class="pointer tree-view-item"
-                        :item="treeViewItem"
-                        :parent="parent"
-                        :isCheckable="isCheckable"
-                        :selectedItem="selectedItem"
-                        :treeState="treeState"
-                        @contextmenu.prevent="$emit('onContextMenu', { item: treeViewItem, event: $event })">
-                        <template v-slot:icon><slot name="item-prepend-icon" v-bind="treeViewItem"></slot></template>
-                    </treeview-item>
-            </div>
+                <template v-slot:icon><slot name="item-prepend-icon" v-bind="treeViewItem"></slot></template>
+                <template v-slot:prepend><slot name="item-prepend" v-bind="treeViewItem"></slot></template>
+            </treeview-item>
             
             <div class="node-child hide"
                 :class="{'hide-guidelines': hideGuideLines}" 
@@ -51,6 +42,4 @@
         </li>
     </ul>
 </template>
-
-<style scoped src="./tree-component.css" />
 <script src="./tree-component.ts" lang="ts" />   
