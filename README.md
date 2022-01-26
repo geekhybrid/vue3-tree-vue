@@ -61,6 +61,14 @@ A Simple vue3 project for rendering items in a tree.
 | expandedTypes | An empty array | Defines an array of strings. Each node which a `type` present in this array will be expanded by default.
 | expandedIds | An empty array | Defines an array of strings. Each node which an `id` present in this array will be expanded by default.
 
+## Event Handlers
+| Events      | Description |
+| ----------- | -------------
+| onSelect    | Callback function when an item is selected from the tree .Returns an `ItemEventArgs`.
+| onCheck     | Callback function when an item is checked/unchecked from the tree. 
+
+<blockquote> The `onCheck` event may be fired more than once to show the change in state of deep hierachies. </blockquote>
+
 ## Styles
 
 | Class | Description |

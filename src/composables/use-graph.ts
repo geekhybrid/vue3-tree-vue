@@ -1,4 +1,4 @@
-import { TreeState, TreeViewItem } from "@/types";
+import { ItemEventArgs, TreeState, TreeViewItem } from "@/types";
 
 /**
  * Initialises the root state of a tree.
@@ -7,6 +7,8 @@ import { TreeState, TreeViewItem } from "@/types";
  * @param checkedItems An array of prechecked items
  * @param onItemsChecked Callback for itemChecked
  * @param isNodeExpanded A callback to verify if node is preset to expanded
+ * @param itemSelectedEventHandler A callback when an item is selected.
+ * @param itemSelectedEventHandler A callback when an item is checked.
  * @returns 
  */
 export function useGraph(
@@ -14,7 +16,9 @@ export function useGraph(
     onItemSelected: (item: TreeViewItem) => void,
     checkedItems: TreeViewItem[] | undefined,
     onItemsChecked: (selectedItems: TreeViewItem[]) => void,
-    isNodeExpanded: (id: string, type: string) => boolean): TreeState {
+    isNodeExpanded: (id: string, type: string) => boolean,
+    itemSelectedEventHandler: (args: ItemEventArgs) => void,
+    itemCheckedEventHandler: (args: ItemEventArgs) => void): TreeState {
 
     const childParentLookUp: {[childId: string]: TreeViewItem | undefined } = {};
 
@@ -27,10 +31,21 @@ export function useGraph(
 
     const emitItemSelected = (node: TreeViewItem) => {
         if (node === selectedItem) return;
+
+        itemSelectedEventHandler({
+            item: node,
+            change: 'selected'
+        });
+
         selectedItem = node;
         onItemSelected(node);
     };
     const emitItemCheckedChange = (node: TreeViewItem) => {
+        itemCheckedEventHandler({
+            item: node,
+            change: node.checkedStatus!
+        });
+
         if (node.checkedStatus == 'true')
             checkedItemsLookup[node.id] = node;
         else

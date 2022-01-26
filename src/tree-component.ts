@@ -42,7 +42,7 @@ export default defineComponent({
         }
     },
     components: { 'treeview-item': TreeItemComponent },
-    emits: ['update:selectedItem', 'update:checkedItems', 'onContextMenu'],
+    emits: ['update:selectedItem', 'update:checkedItems', 'onContextMenu', 'onSelect', 'onCheck'],
     
     setup(props, { emit, attrs}) {
         const parent = computed<TreeViewItem>(() => attrs.parent as TreeViewItem);
@@ -55,7 +55,9 @@ export default defineComponent({
                 (selectedItem) => emit('update:selectedItem', selectedItem),
                 props.checkedItems,
                 (checkedItems) => emit('update:checkedItems', checkedItems),
-                (id: string, type: string) => expandedKeys.has(id) || expandedKeys.has(type)
+                (id: string, type: string) => expandedKeys.has(id) || expandedKeys.has(type),
+                (eventArguments) => emit('onSelect', eventArguments),
+                (eventArguments) => emit('onCheck', eventArguments)
         );
 
         return {

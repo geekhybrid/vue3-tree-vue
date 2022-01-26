@@ -7,9 +7,9 @@ export interface TreeViewItem {
     id: string
 }
 
-export interface ItemCheckedChangedEvent {
+export interface ItemEventArgs {
     item: TreeViewItem,
-    status: CheckedState
+    change: CheckedState | SelectState
 }
 
 export interface TreeState {
@@ -28,3 +28,4 @@ export interface TreeEvents {
 
 export type IsValidDropCallback = (droppedItem: TreeViewItem, dropHost: TreeViewItem) => boolean;
 export type CheckedState = 'true' | 'false' | 'indeterminate';
+export type SelectState = 'selected' | 'unselected';

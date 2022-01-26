@@ -11,7 +11,7 @@
             @dragover.stop="addHoverClass"
             @dragleave.stop="removeHoverClass">
 
-            <treeview-item class="pointer tree-view-item"
+            <treeview-item class="pointer tree-view-item" 
                 :item="treeViewItem"
                 :parent="parent"
                 :isCheckable="isCheckable"

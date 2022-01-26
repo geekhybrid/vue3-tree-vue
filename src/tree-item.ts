@@ -80,7 +80,7 @@ export default defineComponent({
             chevron.value?.classList.toggle("rotate-90");
             const element = document.getElementById(props.item.id)?.getElementsByClassName('node-child');
             
-            if (!element) return;
+            if (!element || !element[0]) return;
             element[0].classList.toggle('hide');
         }
 
