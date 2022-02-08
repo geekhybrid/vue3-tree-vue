@@ -60,6 +60,7 @@ A Simple vue3 project for rendering items in a tree.
 | isCheckable | `false` | Defines if items can be selected (one at a time) or selected (using a checkbox)
 | expandedTypes | An empty array | Defines an array of strings. Each node which a `type` present in this array will be expanded by default.
 | expandedIds | An empty array | Defines an array of strings. Each node which an `id` present in this array will be expanded by default.
+| expandAll | false | If `true` all nodes in the tree will be expanded by default.
 
 ## Event Handlers
 | Events      | Description |

@@ -39,6 +39,10 @@ export default defineComponent({
         expandedIds: {
             type: Object as PropType<string[]>,
             default: () => []
+        },
+        expandAll : {
+            type: Boolean as PropType<boolean>,
+            default: false
         }
     },
     components: { 'treeview-item': TreeItemComponent },
@@ -55,7 +59,7 @@ export default defineComponent({
                 (selectedItem) => emit('update:selectedItem', selectedItem),
                 props.checkedItems,
                 (checkedItems) => emit('update:checkedItems', checkedItems),
-                (id: string, type: string) => expandedKeys.has(id) || expandedKeys.has(type),
+                (id: string, type: string) => expandedKeys.has(id) || expandedKeys.has(type) || props.expandAll,
                 (eventArguments) => emit('onSelect', eventArguments),
                 (eventArguments) => emit('onCheck', eventArguments)
         );

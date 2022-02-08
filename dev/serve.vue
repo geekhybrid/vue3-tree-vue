@@ -44,8 +44,7 @@ export default defineComponent({
           v-model:checkedItems="selectedItems"
           @onSelect="onItemSelected"
           @onCheck="onItemChecked"
-          :expandedTypes="['emails', 'folder']"
-          :expandedIds="[9]"
+          :expandAll="true"
           style="width: 500px; display: block; border-right: 1px solid gray">
           <template v-slot:item-prepend-icon="treeViewItem" >
               <img src="./assets/folder.svg" alt="folder" 
