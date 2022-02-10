@@ -54,7 +54,11 @@ export default defineComponent({
         const treeState = ref<TreeState>();
         var expandedKeys = new Set<string>([...props.expandedTypes, ...props.expandedIds]);
             // Create a tree state object for only root nodes.
-        treeState.value = props.treeState ?? useGraph(
+        if (props.treeState != null) {
+            treeState.value = props.treeState;
+        }
+        else {
+            treeState.value = useGraph(
                 props.selectedItem,
                 (selectedItem) => emit('update:selectedItem', selectedItem),
                 props.checkedItems,
@@ -62,7 +66,8 @@ export default defineComponent({
                 (id: string, type: string) => expandedKeys.has(id) || expandedKeys.has(type) || props.expandAll,
                 (eventArguments) => emit('onSelect', eventArguments),
                 (eventArguments) => emit('onCheck', eventArguments)
-        );
+            );
+        }
 
         return {
             ...useTreeViewItemMouseActions(),

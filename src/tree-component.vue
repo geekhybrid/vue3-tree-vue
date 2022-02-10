@@ -1,5 +1,5 @@
 <template>
-    <ul id="explorer" class="explorer">
+    <ul id="explorer" class="explorer tree-item-node-parent">
         <li v-for="treeViewItem in items" 
             :key="treeViewItem.id" 
             :id="treeViewItem.id"
@@ -9,6 +9,7 @@
             @dragstart.stop="onDragNode(treeViewItem, $event)"
             @drop.prevent.stop="onDropNode(treeViewItem, $event, onDropValidator)"
             @dragover.stop="addHoverClass"
+            class="tree-item-node"
             @dragleave.stop="removeHoverClass">
 
             <treeview-item class="pointer tree-view-item" 
