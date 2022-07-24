@@ -1,11 +1,11 @@
 import { IsValidDropCallback, TreeState, TreeViewItem } from "./types";
-import TreeItemComponent from "./tree-item.vue";
+import TreeItem from "./tree-item.vue";
 import { useTreeViewItemMouseActions } from "../src/composables/use-tree-mouse-actions";
 import { useGraph } from "./composables/use-graph";
 import { computed, defineComponent, PropType, ref } from "vue";
 
 export default defineComponent({
-    name: 'tree-view',
+    name: 'TreeView',
     props: {
         items: {
             type: Array as PropType<TreeViewItem[]>,
@@ -45,7 +45,7 @@ export default defineComponent({
             default: false
         }
     },
-    components: { 'treeview-item': TreeItemComponent },
+    components: { TreeItem },
     emits: ['update:selectedItem', 'update:checkedItems', 'onContextMenu', 'onSelect', 'onCheck'],
     
     setup(props, { emit, attrs}) {

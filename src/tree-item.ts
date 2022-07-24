@@ -78,10 +78,12 @@ export default defineComponent({
         const chevron = ref<HTMLSpanElement>();
         const toggleExpand = () => {
             chevron.value?.classList.toggle("rotate-90");
-            const element = document.getElementById(props.item.id)?.getElementsByClassName('node-child');
+            const childrenPanel = document.getElementById(props.item.id)?.getElementsByClassName('tree-item__children');
             
-            if (!element || !element[0]) return;
-            element[0].classList.toggle('hide');
+            if (!childrenPanel || !childrenPanel[0]) return;
+            childrenPanel[0].classList.toggle('tree-item__children--hidden');
+
+            console.log(childrenPanel[0].classList);
         }
 
         return {
