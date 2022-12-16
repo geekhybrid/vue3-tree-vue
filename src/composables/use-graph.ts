@@ -2,7 +2,7 @@ import { ItemEventArgs, TreeState, TreeViewItem } from "@/types";
 
 /**
  * Initialises the root state of a tree.
- * @param selectedItem An array of preselected items
+ * @param selectedItem A preselected item
  * @param onItemSelected Callback for itemselected
  * @param checkedItems An array of prechecked items
  * @param onItemsChecked Callback for itemChecked
@@ -30,12 +30,12 @@ export function useGraph(
     checkedItems?.forEach(node => checkedItemsLookup[node.id] = node);
 
     const emitItemSelected = (node: TreeViewItem) => {
-        if (node === selectedItem) return;
-
         itemSelectedEventHandler({
             item: node,
             change: 'selected'
         });
+
+        if (node === selectedItem) return;
 
         selectedItem = node;
         onItemSelected(node);
