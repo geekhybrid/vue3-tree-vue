@@ -68,8 +68,10 @@ export default defineComponent({
                   v-if="treeViewItem.type === 'emails'"
                   height="20" width="20">
           </template>
-          <template v-slot:item-prepend>
-            <div style="background: blue; height: 18px; width: 18px; margin-right: 0.2em" ></div>
+          <template v-slot:item-expander="item">
+            <div class="d-flex" style="display: flex; justify-content: center; vertical-align: center; justify-items: center; align-items: center; margin-right: 10px;" :style="{background: item.type == 'folder' ? 'blue' : 'red', height: '14px', width: '14px', 'margin-right': '0.2em', 'border-radius': '4px'}">
+              <span style="color: white;">-</span>
+            </div>
           </template>
         </vue3-tree-vue>
 

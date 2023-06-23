@@ -81,3 +81,4 @@ A Simple vue3 project for rendering items in a tree.
 | ----------- |-------------
 | item-prepend-icon | Defines the node's prepend icon.
 | item-prepend | Defines a slot to house an content before the node's label. 
+| item-expander | Defines a slot to house an content for the expander. 
