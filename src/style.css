@@ -3,6 +3,10 @@
     color: white;
 }
 
+.tree-item {
+    padding: 0.35em;
+}
+
 ul {
     padding-left: 0;
     margin: 0;
@@ -16,11 +20,6 @@ li {
 
 li.drag-over {
     background-color: rgba(22, 22, 22, 0.068);
-}
-
-.tree-view-item {
-    margin: 0.1em;
-    padding: 0.35em;
 }
 
 .chevron-right {
@@ -54,8 +53,15 @@ li.drag-over {
     align-items: center;
 }
 
+.nested {
+    margin-left: 47px !important;
+}
+
+.root {
+    margin-left: 30px !important;
+}
+
 .node-child {
-    margin-left: 37px !important;
     border-left: 1px dashed rgb(192, 192, 192);
     display: block;
 }

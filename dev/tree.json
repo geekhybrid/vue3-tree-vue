@@ -1,71 +1,82 @@
 [
-    {
-      "name": "Rejection Emails",
-      "id": 1,
-      "type": "emails",
-      "children": [       
-                {
+  {
+    "name": "Rejection Emails",
+    "id": 1,
+    "type": "emails",
+    "children": [
+      {
+        "name": "List of Rejection Emails",
+        "id": 2,
+        "type": ".excel"
+      },
+      {
+        "name": "Handling Rejection Through Open-sourcing User Guide",
+        "id": 3,
+        "type": ".doc"
+      },
+      {
+        "name": "Leet Code Tracking Sheet",
+        "id": 4,
+        "type": "folder",
+        "children": [
+          {
+            "name": "Solved Problems (30)",
+            "type": ".excel",
+            "id": 5
+          },
+          {
+            "name": "Unsolved Problems (5000)",
+            "type": "folder",
+            "id": 6,
+            "children": [
+              {
+                "name": "Inverting a linked list (lol)",
+                "id": 7,
+                "type": ".playlist"
+              },
+              {
+                "name": "Decoding hieroglyphs",
+                "id": 8,
+                "type": ".playlist",
+                "children": [
+                  {
                     "name": "List of Rejection Emails",
-                    "id": 2,
+                    "id": 24334,
                     "type": ".excel"
-                },    
-                {
+                  },
+                  {
                     "name": "Handling Rejection Through Open-sourcing User Guide",
-                    "id": 3,
+                    "id": 354545,
                     "type": ".doc"
-                },    
-                {
-                    "name": "Leet Code Tracking Sheet",
-                    "id": 4,
-                    "type": "folder",
-                    "children": [
-                    {
-                        "name": "Solved Problems (30)",
-                        "type": ".excel",
-                        "id": 5
-                    },
-                    {
-                        "name": "Unsolved Problems (5000)",
-                        "type": "folder",
-                        "id": 6,
-                        
-                    "children": [
-                      {
-                          "name": "Inverting a linked list (lol)",
-                          "id": 7,
-                          "type": ".playlist"
-                      },    
-                      {
-                          "name": "Decoding hieroglyphs",
-                          "id": 8,
-                          "type": ".playlist"
-                      }
-                    ]
+                  }
+                ]
               }
             ]
           }
-      ]
-    },
-    {
-      "name": "System Design Playlist",
-      "id": 9,
-      "type": ".playlist",
-      "children": [       
-          {
-            "name": "Space Station Design",
-            "id": 10,
-            "type": ".playlist"
-          },    
-          {
-            "name": "Gabbage Collector Design",
-            "id": 11,
-            "type": ".playlist"
-          },
-          {
-            "name": "Design Extra-Terrestrial Life Support",
-            "type": ".playlist",
-            "id": 12
-          }
-      ]
-    }
-  ]
+        ]
+      }
+    ]
+  },
+  {
+    "name": "System Design Playlist",
+    "id": 9,
+    "type": ".playlist",
+    "children": [
+      {
+        "name": "Space Station Design",
+        "id": 10,
+        "type": ".playlist"
+      },
+      {
+        "name": "Gabbage Collector Design",
+        "id": 11,
+        "type": ".playlist"
+      },
+      {
+        "name": "Design Extra-Terrestrial Life Support",
+        "type": ".playlist",
+        "id": 12
+      }
+    ]
+  }
+]

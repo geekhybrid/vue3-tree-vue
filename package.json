@@ -1,6 +1,6 @@
 {
   "name": "vue3-tree-vue",
-  "version": "1.0.15",
+  "version": "1.0.18",
   "description": "",
   "license": "MIT",
   "repository": {
@@ -37,7 +37,9 @@
     "build:unpkg": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format iife",
     "postbuild": "rimraf ./dist/types/dev ./dist/types/src/entry.d.ts"
   },
-  "dependencies": {},
+  "dependencies": {
+    "user": "^0.0.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.14.6",
     "@babel/preset-env": "^7.14.7",
