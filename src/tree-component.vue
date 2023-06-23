@@ -21,6 +21,7 @@
                 @contextmenu.prevent="$emit('onContextMenu', { item: treeViewItem, event: $event })">
                 <template v-slot:icon><slot name="item-prepend-icon" v-bind="treeViewItem"></slot></template>
                 <template v-slot:prepend><slot name="item-prepend" v-bind="treeViewItem"></slot></template>
+                <template v-slot:expander><slot name="item-expander" v-bind="treeViewItem"></slot></template>
             </treeview-item>
             
             <div class="node-child hide"
