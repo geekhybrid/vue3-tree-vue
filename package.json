@@ -1,6 +1,6 @@
 {
   "name": "vue3-tree-vue",
-  "version": "1.0.18",
+  "version": "1.0.20",
   "description": "",
   "license": "MIT",
   "repository": {
@@ -29,16 +29,13 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "serve": "vue-cli-service serve dev/serve.ts",
+    "serve": "cross-env NODE_OPTIONS='--openssl-legacy-provider' vue-cli-service serve dev/serve.ts",
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup --config build/rollup.config.js",
     "build:ssr": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format umd",
     "build:es": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format es",
     "build:unpkg": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format iife",
     "postbuild": "rimraf ./dist/types/dev ./dist/types/src/entry.d.ts"
-  },
-  "dependencies": {
-    "user": "^0.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
@@ -63,10 +60,10 @@
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-postcss": "^4.0.0",
     "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-typescript2": "^0.30.0",
+    "rollup-plugin-typescript2": "^0.31.0",
     "rollup-plugin-vue": "^6.0.0",
     "ttypescript": "^1.5.12",
-    "typescript": "^4.0.3",
+    "typescript": "4.6.4",
     "vue": "^3.0.5"
   },
   "peerDependencies": {

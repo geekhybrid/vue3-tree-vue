@@ -1,7 +1,6 @@
 <template>
   <div class="d-flex align-items-center" @contextmenu.prevent="$emit('onContextMenu', { item, event: $event })">
-    <div class="horizontal-dashes" v-if="$attrs.parent" />
-    <!-- {{ $attrs }} -->
+    <div class="horizontal-dashes"></div>
 
     <div @click="toggleExpand()" v-show="item.children && item.children.length > 0">
       <slot name="expander">
