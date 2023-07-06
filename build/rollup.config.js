@@ -122,6 +122,9 @@ if (!argv.format || argv.format === 'es') {
             {
               ...babelPresetEnvConfig,
               targets: esbrowserslist,
+              include: [
+                /(optional-chaining|nullish-coalescing)/
+              ],
             },
           ],
         ],

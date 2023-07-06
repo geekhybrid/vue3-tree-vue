@@ -3,6 +3,7 @@ export interface TreeViewItem {
     type: string
     checkedStatus?: CheckedState,
     name: string,
+    expanded: boolean;
     data?: any,
     id: string
 }
