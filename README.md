@@ -22,6 +22,8 @@ A Simple vue3 project for rendering items in a tree.
 </template>
 ```
 ```ts
+import 'vue3-tree-vue/dist/style.css'; // remember to add this in your component or maint.[ts/js]
+ 
   setup() {
     const onItemChecked = (checkedItems: TreeViewItem[]) => console.log(checkedItems);
     const onItemSelected = (item: TreeViewItem) => console.log(item);
