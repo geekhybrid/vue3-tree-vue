@@ -4,7 +4,7 @@
 }
 
 .tree-item {
-    padding: 0.35em;
+    padding: 0.25em;
 }
 
 ul {
@@ -47,6 +47,7 @@ li.drag-over {
 
 .d-flex {
     display: flex;
+    align-items: center;
 }
 
 .align-items-center {
@@ -59,6 +60,16 @@ li.drag-over {
 
 .root {
     margin-left: 30px !important;
+}
+
+.tiny_horizontal_margin {
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.tree-item__checkbox-area {
+  display: flex;
+  align-items: center;
 }
 
 .node-child {

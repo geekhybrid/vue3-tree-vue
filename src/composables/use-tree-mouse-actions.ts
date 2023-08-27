@@ -1,4 +1,4 @@
-import { TreeViewItem } from "../types";
+import { TreeViewItem, _InternalItem } from "../types";
 
 export function useTreeViewItemMouseActions() {
     const addHoverClass = (event: DragEvent): void => {
@@ -23,9 +23,9 @@ export function useTreeViewItemMouseActions() {
         }
     }
 
-    const onDropNode = (dropHost: TreeViewItem, event: DragEvent, isDropValid: (item1: TreeViewItem, item2: TreeViewItem) => boolean): void => {
+    const onDropNode = (dropHost: _InternalItem, event: DragEvent, isDropValid: (item1: _InternalItem, item2: _InternalItem) => boolean): void => {
         if (event.dataTransfer) {
-            const droppedNode = JSON.parse(event.dataTransfer.getData('text/plain')) as TreeViewItem;
+            const droppedNode = JSON.parse(event.dataTransfer.getData('text/plain')) as _InternalItem;
 
             removeHoverClass(event)
 

@@ -1,25 +1,26 @@
 export interface TreeViewItem {
-    children?: TreeViewItem[]
-    type: string
-    checkedStatus?: CheckedState,
-    name: string,
-    expanded: boolean;
-    data?: any,
-    id: string
+  name: string;
+  id?: string | number;
+  children?: TreeViewItem[];
+  checked?: boolean;
+  selected?: boolean;
+  expanded?: boolean;
 }
 
-export interface ItemEventArgs {
-    item: TreeViewItem,
-    change: CheckedState | SelectState
+export type _InternalItem = TreeViewItem & {
+  id: string;
+  indeterminate: boolean;
 }
+
+export const _TREE_STATE_PROVIDER_INJECT_KEY = "VUE3_TREE_VUE_TREE_STATE";
 
 export interface TreeState {
-    getParent(childId: string): TreeViewItem | undefined;
+    getNode(id: string | number): _InternalItem;
+    getParent(childId: string | number): TreeViewItem | undefined;
     trackNode(childNode: TreeViewItem, parentNode: TreeViewItem): void;
     untrackNode(childNode: TreeViewItem): void;
     emitItemSelected(node: TreeViewItem): void;
-    emitItemCheckedChange(node: TreeViewItem): void;
-    isNodeExpanded(id: string, type: string): boolean;
+    emitItemCheckedChange(): void;
 }
 
 export interface TreeEvents {
@@ -28,5 +29,3 @@ export interface TreeEvents {
 }
 
 export type IsValidDropCallback = (droppedItem: TreeViewItem, dropHost: TreeViewItem) => boolean;
-export type CheckedState = 'true' | 'false' | 'indeterminate';
-export type SelectState = 'selected' | 'unselected';

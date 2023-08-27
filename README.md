@@ -1,15 +1,16 @@
 A Simple vue3 project for rendering items in a tree.
 
 `npm i vue3-tree-vue`
-## Handling Selected Items:
+
 
 ```html
 <template>    
-    <!-- Default makes items selectable (one at a time) -->
     <vue3-tree-vue :items="items" 
-                   :isCheckable="false"
+                   :isCheckable="false"  //Set to true if you want to get checkable items
                    :hideGuideLines="false"
-                   v-model:selectedItem="selectedItem">
+                   @onCheck="onItemChecked" 
+                   @onSelect="onItemSelected"
+                   >
       <!-- Applying some simple styling to tree-items -->
        <template v-slot:item-prepend-icon="treeViewItem" >
               <img src="./assets/folder.svg"
@@ -20,30 +21,22 @@ A Simple vue3 project for rendering items in a tree.
     </vue3-tree-vue>
 </template>
 ```
-
-![image](https://user-images.githubusercontent.com/39003759/144714401-f0c005d0-80e9-4288-aa7a-80b035145e77.png)
-
-## Handling Checked Items
-
 ```ts
   setup() {
-    const selectedItems = ref<TreeViewItem[]>([]);
+    const onItemChecked = (checkedItems: TreeViewItem[]) => console.log(checkedItems);
+    const onItemSelected = (item: TreeViewItem) => console.log(item);
     const items = ref<TreeViewItem[]>([]); // define your tree items here.
     
     return {
-      selectedItems,
+      onItemChecked,
+      onItemSelected,
       items
     }
   }
 ```
-```html
-<template>
-    <vue3-tree-vue :items="items" 
-                   :isCheckable="true"
-                   :hideGuideLines="false"
-                   v-model:checkedItems="selectedItems"/>
-</template>
-```
+
+![image](https://user-images.githubusercontent.com/39003759/144714401-f0c005d0-80e9-4288-aa7a-80b035145e77.png)
+
 
 
 ![image](https://user-images.githubusercontent.com/39003759/144714480-b29d8483-6cbf-45ac-9a43-a0e5c7b5e138.png)
@@ -55,12 +48,8 @@ A Simple vue3 project for rendering items in a tree.
 | ----------- | ----------- |-------------
 | items | Empty array      | An array of `TreeViewItem`.       |
 | hideGuideLines | `false` | Determines the visibility of the guidelines
-| selectedItem | `undefined`   | Defines the item that is selected on the tree
-| checkedItems | An empty array | Defines the items that are checked on the tree
 | isCheckable | `false` | Defines if items can be selected (one at a time) or selected (using a checkbox)
-| expandedTypes | An empty array | Defines an array of strings. Each node which a `type` present in this array will be expanded by default.
-| expandedIds | An empty array | Defines an array of strings. Each node which an `id` present in this array will be expanded by default.
-| expandAll | false | If `true` all nodes in the tree will be expanded by default.
+| checkboxStyle | undefined | Defines the style to be applied to the checkboxes on the tree.
 
 ## Event Handlers
 | Events      | Description |
