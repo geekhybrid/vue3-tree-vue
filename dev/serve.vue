@@ -39,6 +39,7 @@ export default defineComponent({
           :isCheckable="isCheckable"
           :hideGuideLines="false"
           :lazy-load="true"
+          @drop-validator="(_, __) => true"
           @onSelect="onItemSelected"
           @onCheck="onItemChecked"
           :expandAll="true"

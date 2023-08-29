@@ -20,8 +20,7 @@ export default defineComponent({
             default: false
         },
         onDropValidator: {
-            type: Function as PropType<IsValidDropCallback>,
-            default: () => { () => true; }
+            type: Function as PropType<IsValidDropCallback | undefined>,
         },
         treeState: {
             type: Object as PropType<TreeState>
@@ -46,6 +45,7 @@ export default defineComponent({
 
         if (!treeState.value) {
           treeState.value = useGraph(
+            internalItems,
             (selectedItem: TreeViewItem) => emit('onSelect', selectedItem),
             (checkedItems: TreeViewItem[]) => emit('onCheck', checkedItems),
             (expandedItem: TreeViewItem) => emit('onExpand', expandedItem),

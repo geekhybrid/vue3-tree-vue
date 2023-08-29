@@ -1,4 +1,4 @@
-import { computed, defineComponent, inject, nextTick, onMounted, onUnmounted, PropType, ref, watch } from "vue";
+import { computed, defineComponent, inject, nextTick, onMounted, PropType, ref, watch } from "vue";
 import { updateChildrenCheckState, updateParentCheckState } from "./composables/use-tree-traversal";
 import { TreeState, TreeViewItem, _InternalItem, _TREE_STATE_PROVIDER_INJECT_KEY } from "./types";
 
@@ -45,8 +45,6 @@ export default defineComponent({
               props.item.checked = parent.value?.checked;
             }
         });
-        
-        onUnmounted(() => treeState.untrackNode(props.item));
 
         const updateCheckState = () =>  {
           props.item.checked = checkbox.value?.checked;

@@ -1,4 +1,4 @@
-import { TreeViewItem, _InternalItem } from "../types";
+import { IsValidDropCallback, TreeState, TreeViewItem, _InternalItem } from "../types";
 
 export function useTreeViewItemMouseActions() {
     const addHoverClass = (event: DragEvent): void => {
@@ -23,7 +23,8 @@ export function useTreeViewItemMouseActions() {
         }
     }
 
-    const onDropNode = (dropHost: _InternalItem, event: DragEvent, isDropValid: (item1: _InternalItem, item2: _InternalItem) => boolean): void => {
+    const onDropNode = (dropHost: _InternalItem, event: DragEvent, isDropValid: IsValidDropCallback | undefined, state: TreeState): void => {
+        console.log(event.dataTransfer);
         if (event.dataTransfer) {
             const droppedNode = JSON.parse(event.dataTransfer.getData('text/plain')) as _InternalItem;
 
@@ -32,8 +33,14 @@ export function useTreeViewItemMouseActions() {
             if (droppedNode.id === dropHost.id) {
                 return
             }
-            
-            if (!isDropValid(droppedNode, dropHost)) return;
+
+            if (!isDropValid || !isDropValid(droppedNode, dropHost)) return;
+
+            if (!dropHost.children)
+                dropHost.children = [];
+
+            state.detach(droppedNode.id);
+            dropHost.children.push(droppedNode);
         }
     }
 

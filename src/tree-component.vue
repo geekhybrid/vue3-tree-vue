@@ -3,11 +3,11 @@
         <li v-for="treeViewItem in internalItems" 
             :key="treeViewItem.id"
             :id="treeViewItem.id"
-            draggable
+            :draggable="onDropValidator != undefined"
             @dragover.stop.prevent
             @dragenter.stop.prevent
             @dragstart.stop="onDragNode(treeViewItem, $event)"
-            @drop.prevent.stop="onDropNode(treeViewItem, $event, onDropValidator)"
+            @drop.prevent.stop="(e) => onDropNode(treeViewItem, e, onDropValidator, treeState!)"
             @dragover.stop="addHoverClass"
             class="tree-item-node"
             @dragleave.stop="removeHoverClass">

@@ -16,10 +16,10 @@ export type _InternalItem = TreeViewItem & {
 export const _TREE_STATE_PROVIDER_INJECT_KEY = "VUE3_TREE_VUE_TREE_STATE";
 
 export interface TreeState {
+    detach(id: string): void;
     getNode(id: string | number): _InternalItem;
     getParent(childId: string | number): TreeViewItem | undefined;
     trackNode(childNode: TreeViewItem, parentNode: TreeViewItem): void;
-    untrackNode(childNode: TreeViewItem): void;
     emitItemSelected(node: TreeViewItem): void;
     emitItemCheckedChange(): void;
     emitItemExpanded(expandedItem: TreeViewItem): void;
