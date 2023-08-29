@@ -58,6 +58,7 @@
     "expanded": true,
     "type": ".playlist",
     "checked": true,
+    "disabled": true,
     "children": [
       {
         "name": "Space Station Design",
@@ -75,5 +76,13 @@
         "id": 12
       }
     ]
+  },
+  {
+    "name": "Lazyloaded",
+    "id": 389813,
+    "expanded": true,
+    "type": ".playlist",
+    "checked": true,
+    "disabled": true
   }
 ]

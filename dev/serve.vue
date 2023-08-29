@@ -38,6 +38,7 @@ export default defineComponent({
         <vue3-tree-vue :items="items"
           :isCheckable="isCheckable"
           :hideGuideLines="false"
+          :lazy-load="true"
           @onSelect="onItemSelected"
           @onCheck="onItemChecked"
           :expandAll="true"

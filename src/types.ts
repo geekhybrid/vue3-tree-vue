@@ -5,6 +5,7 @@ export interface TreeViewItem {
   checked?: boolean;
   selected?: boolean;
   expanded?: boolean;
+  disabled?: boolean;
 }
 
 export type _InternalItem = TreeViewItem & {
@@ -21,6 +22,8 @@ export interface TreeState {
     untrackNode(childNode: TreeViewItem): void;
     emitItemSelected(node: TreeViewItem): void;
     emitItemCheckedChange(): void;
+    emitItemExpanded(expandedItem: TreeViewItem): void;
+    emitItemCollapsed(collapsedItem: TreeViewItem): void;
 }
 
 export interface TreeEvents {

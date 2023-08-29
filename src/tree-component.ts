@@ -28,10 +28,13 @@ export default defineComponent({
         },
         checkboxStyle: {
           type: String
+        },
+        lazyLoad: {
+            type: Boolean
         }
     },
     components: { 'treeview-item': TreeItemComponent },
-    emits: ['onContextMenu', 'onSelect', 'onCheck'],
+    emits: ['onContextMenu', 'onSelect', 'onCheck', 'onExpand', 'onCollapse'],
     
     setup(props, { emit, attrs}) {
         const parent = computed<TreeViewItem>(() => attrs.parent as TreeViewItem);
@@ -44,7 +47,9 @@ export default defineComponent({
         if (!treeState.value) {
           treeState.value = useGraph(
             (selectedItem: TreeViewItem) => emit('onSelect', selectedItem),
-            (checkedItems: TreeViewItem[]) => emit('onCheck', checkedItems)
+            (checkedItems: TreeViewItem[]) => emit('onCheck', checkedItems),
+            (expandedItem: TreeViewItem) => emit('onExpand', expandedItem),
+            (collapsedItem: TreeViewItem) => emit('onCollapse', collapsedItem)
           );
   
           provide<TreeState>(_TREE_STATE_PROVIDER_INJECT_KEY, treeState.value); 

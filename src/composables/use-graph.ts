@@ -8,8 +8,10 @@ import { TreeState, TreeViewItem, _InternalItem } from "@/types";
  * @returns 
  */
 export function useGraph(
-    itemSelectedEventHandler: (args: TreeViewItem) => void,
-    itemCheckedEventHandler: (checkedItems: TreeViewItem[]) => void): TreeState {
+    itemSelectedEventHandler: (selectedItem: TreeViewItem) => void,
+    itemCheckedEventHandler: (checkedItems: TreeViewItem[]) => void,
+    itemExpandedEventHandler: (expandedItem: TreeViewItem) => void,
+    itemCollapsedEventHandler: (collapsedItem: TreeViewItem) => void): TreeState {
 
     const childParentLookUp: Record<string | number, _InternalItem>  = {};
     const nodeLookUp: Record<string, _InternalItem> = {};
@@ -30,7 +32,9 @@ export function useGraph(
         Object.values(nodeLookUp).forEach(node => node.selected = false);
         node.selected = true;
     };
-    const emitItemCheckedChange = () => itemCheckedEventHandler(Object.values(nodeLookUp).filter(node => node.checked));
+    const emitItemCheckedChange = 
+      () => itemCheckedEventHandler(Object.values(nodeLookUp).filter(node => node.checked && !node.disabled));
+
     const getNode = (id: string) => nodeLookUp[id];
 
 
@@ -40,6 +44,8 @@ export function useGraph(
         trackNode,
         untrackNode,
         emitItemCheckedChange,
-        emitItemSelected
+        emitItemSelected,
+        emitItemExpanded: itemExpandedEventHandler,
+        emitItemCollapsed: itemCollapsedEventHandler
     }
 }

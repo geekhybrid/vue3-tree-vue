@@ -14,6 +14,12 @@ export default defineComponent({
         },
         canRename: {
             type: Boolean
+        },
+        checkboxStyle: {
+            type: String
+        },
+        lazyLoad: {
+            type: Boolean
         }
     },
     emits: ["on-rename", "onContextMenu"],
@@ -56,12 +62,16 @@ export default defineComponent({
             () => checkbox.value!.indeterminate = props.item.indeterminate
         );
 
-
-
         watch(
           () => props.item.checked, 
           () => setCheckboxState()
         );
+
+        watch(
+          () => props.item.children?.length,
+          () => props.item.children?.forEach(child => treeState?.trackNode(child, props.item))
+        )
+
 
         const isRenaming = ref(false);
         const renameBox = ref<HTMLInputElement>();
@@ -83,11 +93,17 @@ export default defineComponent({
         const chevron = ref<HTMLSpanElement>();
         const toggleExpand = () => {
             chevron.value?.classList.toggle("rotate-90");
+            props.item.expanded = !props.item.expanded;
+
+            if (props.item.expanded)
+              treeState.emitItemExpanded(props.item);
+            else
+              treeState.emitItemCollapsed(props.item);
+
             const element = document.getElementById(props.item.id)?.getElementsByClassName('node-child');
             
             if (!element || !element[0]) return;
             element[0].classList.toggle('hide');
-            props.item.expanded = !props.item.expanded;
         }
 
         return {
