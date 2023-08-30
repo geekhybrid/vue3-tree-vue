@@ -1,66 +1,68 @@
-import { ItemEventArgs, TreeState, TreeViewItem } from "@/types";
+import { TreeState, TreeViewItem, _InternalItem } from "@/types";
+import { Ref } from "vue";
 
+// TODO: Watch children length: When node is deleted: Remove from graph.
 /**
  * Initialises the root state of a tree.
- * @param selectedItem A preselected item
- * @param onItemSelected Callback for itemselected
- * @param checkedItems An array of prechecked items
- * @param onItemsChecked Callback for itemChecked
- * @param isNodeExpanded A callback to verify if node is preset to expanded
  * @param itemSelectedEventHandler A callback when an item is selected.
  * @param itemSelectedEventHandler A callback when an item is checked.
  * @returns 
  */
 export function useGraph(
-    selectedItem: TreeViewItem | undefined,
-    onItemSelected: (item: TreeViewItem) => void,
-    checkedItems: TreeViewItem[] | undefined,
-    onItemsChecked: (selectedItems: TreeViewItem[]) => void,
-    isNodeExpanded: (id: string, type: string) => boolean,
-    itemSelectedEventHandler: (args: ItemEventArgs) => void,
-    itemCheckedEventHandler: (args: ItemEventArgs) => void): TreeState {
+    items: Ref<TreeViewItem[]>,
+    itemSelectedEventHandler: (selectedItem: TreeViewItem) => void,
+    itemCheckedEventHandler: (checkedItems: TreeViewItem[]) => void,
+    itemExpandedEventHandler: (expandedItem: TreeViewItem) => void,
+    itemCollapsedEventHandler: (collapsedItem: TreeViewItem) => void): TreeState {
+    const childParentLookUp: Record<string | number, _InternalItem | undefined>  = {};
+    const nodeLookUp: Record<string, _InternalItem> = {};
 
-    const childParentLookUp: {[childId: string]: TreeViewItem | undefined } = {};
+    const getParent = (childId: string | number) => childParentLookUp[childId];
+    const trackNode = (node: _InternalItem, parentNode: _InternalItem | undefined) => {
+      if (!node.id) {
+        node.id = crypto.randomUUID();
+      }
 
-    const getParent = (childId: string) => childParentLookUp[childId];
-    const trackNode = (node: TreeViewItem, parentNode: TreeViewItem) => childParentLookUp[node.id] = parentNode;
-    const untrackNode = (node: TreeViewItem) => delete(childParentLookUp[node.id])
+      nodeLookUp[node.id] = node;
+      childParentLookUp[node.id] = parentNode
+    };
 
-    const checkedItemsLookup: {[childId: string]: TreeViewItem } = {};
-    checkedItems?.forEach(node => checkedItemsLookup[node.id] = node);
+    const detach = (id: string | number) => {
+      const parent = childParentLookUp[id];
+      if (parent == null) {
+        items.value = items.value.filter(item => item.id != id);
+      }
+      else {
+        parent.children = parent.children?.filter(child => child.id != id);
+      }
+      delete(childParentLookUp[id]);
+    }
+
+    const attach = (item: _InternalItem) => {
+      items.value.push(item);
+      trackNode(item, undefined);
+    }
 
     const emitItemSelected = (node: TreeViewItem) => {
-        itemSelectedEventHandler({
-            item: node,
-            change: 'selected'
-        });
-
-        if (node === selectedItem) return;
-
-        selectedItem = node;
-        onItemSelected(node);
+        itemSelectedEventHandler(node);
+        Object.values(nodeLookUp).forEach(node => node.selected = false);
+        node.selected = true;
     };
-    const emitItemCheckedChange = (node: TreeViewItem) => {
-        itemCheckedEventHandler({
-            item: node,
-            change: node.checkedStatus!
-        });
+    const emitItemCheckedChange = 
+      () => itemCheckedEventHandler(Object.values(nodeLookUp).filter(node => node.checked && !node.disabled));
 
-        if (node.checkedStatus == 'true')
-            checkedItemsLookup[node.id] = node;
-        else
-            delete(checkedItemsLookup[node.id]);
-
-        onItemsChecked(Object.values(checkedItemsLookup));
-    };
+    const getNode = (id: string) => nodeLookUp[id];
 
 
     return {
+        getNode,
         getParent,
         trackNode,
-        untrackNode,
+        detach,
         emitItemCheckedChange,
         emitItemSelected,
-        isNodeExpanded,
+        emitItemExpanded: itemExpandedEventHandler,
+        emitItemCollapsed: itemCollapsedEventHandler,
+        attach
     }
 }

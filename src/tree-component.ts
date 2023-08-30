@@ -1,8 +1,8 @@
-import { IsValidDropCallback, TreeState, TreeViewItem } from "./types";
+import { IsValidDropCallback, TreeState, TreeViewItem, _InternalItem, _TREE_STATE_PROVIDER_INJECT_KEY } from "./types";
 import TreeItemComponent from "./tree-item.vue";
 import { useTreeViewItemMouseActions } from "../src/composables/use-tree-mouse-actions";
 import { useGraph } from "./composables/use-graph";
-import { computed, defineComponent, PropType, ref } from "vue";
+import { computed, defineComponent, inject, PropType, provide, ref, watch } from "vue";
 
 export default defineComponent({
     name: 'tree-view',
@@ -12,12 +12,6 @@ export default defineComponent({
             required: true,
             default: () => { return []}
         },
-        selectedItem: {
-            type: Object as PropType<TreeViewItem>,
-        },
-        checkedItems: {
-            type: Array as PropType<TreeViewItem[]>
-        },
         isCheckable: {
             type: Boolean
         },
@@ -26,52 +20,48 @@ export default defineComponent({
             default: false
         },
         onDropValidator: {
-            type: Function as PropType<IsValidDropCallback>,
-            default: () => { () => true; }
+            type: Function as PropType<IsValidDropCallback | undefined>,
         },
         treeState: {
             type: Object as PropType<TreeState>
         },
-        expandedTypes: {
-            type: Object as PropType<string[]>,
-            default: () => []
+        checkboxStyle: {
+          type: String
         },
-        expandedIds: {
-            type: Object as PropType<string[]>,
-            default: () => []
-        },
-        expandAll : {
-            type: Boolean as PropType<boolean>,
-            default: false
+        lazyLoad: {
+            type: Boolean
         }
     },
     components: { 'treeview-item': TreeItemComponent },
-    emits: ['update:selectedItem', 'update:checkedItems', 'onContextMenu', 'onSelect', 'onCheck'],
+    emits: ['onContextMenu', 'onSelect', 'onCheck', 'onExpand', 'onCollapse'],
     
     setup(props, { emit, attrs}) {
+        const reactiveItems = ref<TreeViewItem[]>([]);
+
+        watch(() => props.items, () => reactiveItems.value = props.items, { immediate: true });
         const parent = computed<TreeViewItem>(() => attrs.parent as TreeViewItem);
+        const internalItems = computed<_InternalItem[]>(() => reactiveItems.value.map(item => item as _InternalItem));
 
         const treeState = ref<TreeState>();
-        var expandedKeys = new Set<string>([...props.expandedTypes, ...props.expandedIds]);
-            // Create a tree state object for only root nodes.
-        if (props.treeState != null) {
-            treeState.value = props.treeState;
-        }
-        else {
-            treeState.value = useGraph(
-                props.selectedItem,
-                (selectedItem) => emit('update:selectedItem', selectedItem),
-                props.checkedItems,
-                (checkedItems) => emit('update:checkedItems', checkedItems),
-                (id: string, type: string) => expandedKeys.has(id) || expandedKeys.has(type) || props.expandAll,
-                (eventArguments) => emit('onSelect', eventArguments),
-                (eventArguments) => emit('onCheck', eventArguments)
-            );
-        }
+        // Create a tree state object for only root nodes.
+        treeState.value = inject<TreeState | undefined>(_TREE_STATE_PROVIDER_INJECT_KEY, undefined);
 
+        if (!treeState.value) {
+          treeState.value = useGraph(
+            reactiveItems,
+            (selectedItem: TreeViewItem) => emit('onSelect', selectedItem),
+            (checkedItems: TreeViewItem[]) => emit('onCheck', checkedItems),
+            (expandedItem: TreeViewItem) => emit('onExpand', expandedItem),
+            (collapsedItem: TreeViewItem) => emit('onCollapse', collapsedItem)
+          );
+  
+          provide<TreeState>(_TREE_STATE_PROVIDER_INJECT_KEY, treeState.value); 
+        }
+        
         return {
             ...useTreeViewItemMouseActions(),
             parent,
+            internalItems,
             treeState
         }
     }

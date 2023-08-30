@@ -4,7 +4,7 @@
 }
 
 .tree-item {
-    padding: 0.35em;
+    padding: 0.25em;
 }
 
 ul {
@@ -18,9 +18,15 @@ li {
     border-radius: 4px;
 }
 
-li.drag-over {
-    background-color: rgba(22, 22, 22, 0.068);
+.tree-item__drag-over {
+    background-color: rgba(22, 22, 22, 0.068) !important;
 }
+
+
+.root__drag-over {
+  border-left: 6px solid #ccc !important;
+}
+
 
 .chevron-right {
     color: gray;
@@ -47,6 +53,7 @@ li.drag-over {
 
 .d-flex {
     display: flex;
+    align-items: center;
 }
 
 .align-items-center {
@@ -59,6 +66,16 @@ li.drag-over {
 
 .root {
     margin-left: 30px !important;
+}
+
+.tiny_horizontal_margin {
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.tree-item__checkbox-area {
+  display: flex;
+  align-items: center;
 }
 
 .node-child {

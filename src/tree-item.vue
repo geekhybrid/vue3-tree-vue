@@ -1,27 +1,34 @@
 <template>
   <div class="d-flex align-items-center" @contextmenu.prevent="$emit('onContextMenu', { item, event: $event })">
-    <div class="horizontal-dashes"></div>
+    <div class="horizontal-dashes" v-if="parent != null"></div>
 
-    <div @click="toggleExpand()" v-show="item.children && item.children.length > 0">
+    <div @click="toggleExpand()" v-show="lazyLoad || item.children && item.children.length > 0">
       <slot name="expander">
         <span class="chevron-right" ref="chevron"></span>
       </slot>
     </div>
 
-    <div class="pointer tree-item" :class="{ 'selected-tree-item': !isCheckable && isSelected }" style="width: 100%">
+    <div class="pointer tree-item" :class="{ 'selected-tree-item': !isCheckable && item.selected }" style="width: 100%">
       <div v-if="!isRenaming" @dblclick="beginRenaming">
-        <div v-if="isCheckable" style="display: flex">
-          <input @contextmenu.prevent @change="updateCheckState" type="checkbox" ref="checkbox" />
+        <div v-if="isCheckable" class="tree-item__checkbox-area">
+          <input @contextmenu.prevent @change="updateCheckState" type="checkbox" ref="checkbox" :disabled="item.disabled" :class="checkboxStyle" />
           <div class="d-flex">
+            <div class="tiny_horizontal_margin">
+              <slot name="icon"></slot>
+            </div>
+            <div class="tiny_horizontal_margin">
+              <slot name="prepend"></slot>
+            </div>
+          </div>
+          <label for="checkbox" v-if="!isRenaming" class="pointer">{{ item.name }}</label>
+        </div>
+        <div class="d-flex" v-else @click="treeState!.emitItemSelected(item)">
+          <div class="tiny_horizontal_margin">
             <slot name="icon"></slot>
+          </div>
+          <div class="tiny_horizontal_margin">
             <slot name="prepend"></slot>
           </div>
-          <label for="checkbox" v-if="!isRenaming">{{ item.name }}</label>
-          <!-- <input v-model="item.name" v-else /> -->
-        </div>
-        <div class="d-flex" v-else @click="treeState?.emitItemSelected(item)">
-          <slot name="icon"></slot>
-          <slot name="prepend"></slot>
           <span>{{ item.name }}</span>
         </div>
       </div>

@@ -4,7 +4,7 @@ import Vue3TreeVue from '@/tree-component.vue';
 import { ref } from '@vue/reactivity';
 import { defineComponent } from '@vue/runtime-core';
 import '@/style.css';
-import { ItemEventArgs } from '@/types';
+import { TreeViewItem } from '@/types';
 
 export default defineComponent({
   name: 'ServeDev',
@@ -15,12 +15,10 @@ export default defineComponent({
   setup() {
     const items = ref(json)
 
-    const onItemChecked = (arg: ItemEventArgs) => console.log(arg.item.name, arg.change);
-    const onItemSelected = (arg: ItemEventArgs) => console.log(arg.item.name);
+    const onItemChecked = (checkedItems: TreeViewItem[]) => console.table(checkedItems);
+    const onItemSelected = (item: TreeViewItem) => console.log(item);
 
     return {
-      selectedItem: ref(),
-      selectedItems: ref(),
       isCheckable: ref(true),
       items,
       onItemChecked,
@@ -40,12 +38,12 @@ export default defineComponent({
         <vue3-tree-vue :items="items"
           :isCheckable="isCheckable"
           :hideGuideLines="false"
-          v-model:selectedItem="selectedItem"
-          v-model:checkedItems="selectedItems"
+          :lazy-load="true"
+          @dropValidator="(_, __) => true"
           @onSelect="onItemSelected"
           @onCheck="onItemChecked"
           :expandAll="true"
-          style="width: 500px; display: block; border-right: 1px solid gray">
+          style="width: 800px; display: block; border-right: 1px solid gray;">
           <template v-slot:item-prepend-icon="treeViewItem" >
               <img src="./assets/folder.svg" alt="folder" 
                   v-if="treeViewItem.type === 'folder'"
@@ -68,21 +66,7 @@ export default defineComponent({
                   v-if="treeViewItem.type === 'emails'"
                   height="20" width="20">
           </template>
-          <template v-slot:item-expander="item">
-            <div class="d-flex" style="display: flex; justify-content: center; vertical-align: center; justify-items: center; align-items: center; margin-right: 10px;" :style="{background: item.type == 'folder' ? 'blue' : 'red', height: '14px', width: '14px', 'margin-right': '0.2em', 'border-radius': '4px'}">
-              <span style="color: white;">-</span>
-            </div>
-          </template>
         </vue3-tree-vue>
-
-        <div style="max-width: 600px">
-          <div style="margin: 0.4em">
-            Selected Item {{ selectedItem?.name }}
-          </div>
-          <div style="margin: 0.4em">
-            {{ selectedItems?.map(node => node.name) }}
-          </div>
-        </div>
       </div>
    </div>
   </div>

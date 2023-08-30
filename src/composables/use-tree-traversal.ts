@@ -1,56 +1,41 @@
-import { TreeState, TreeViewItem } from "@/types";
+import { TreeState, TreeViewItem, _InternalItem } from "@/types";
 
-/**
- * This recursive call is used to traverse a folder looking for all children of a particular type
- * @param parent
- * @param expectedType 
- * @returns 
- */
-export const findChildrenOfType = (parent: TreeViewItem, expectedType: string): TreeViewItem[] => {
-    const children: TreeViewItem[] = [];
-    if (!parent.children) return children;
+export const updateChildrenCheckState = (parent: TreeViewItem, state: TreeState): void => {
+    if (!parent.children)return;
 
-    parent.children.forEach(TreeViewItem  => {
-        if (TreeViewItem.type === expectedType) {
-            children.push(TreeViewItem);
-        }
-
-        if (TreeViewItem.type === 'folder'){
-            children.push(...findChildrenOfType(TreeViewItem, expectedType));
-        }
+    parent.children.forEach(child => {
+        child.checked = parent.checked;
+        state.getNode(child.id!).indeterminate = false;
+        updateChildrenCheckState(child, state);
     });
-
-    return children;
 }
 
-export const cascadeStateToDescendants = (item: TreeViewItem, state: TreeState): void => {
-    item.children?.forEach(child => {
-        child.checkedStatus = item.checkedStatus;
-        state.emitItemCheckedChange(child);
-        cascadeStateToDescendants(child, state);
-    })
-}
-
-export const notifyParentOfSelection = (child: TreeViewItem, state: TreeState): void => {
+export const updateParentCheckState = (child: TreeViewItem, state: TreeState): void => {
     if (!child) return;
-    const parent = state.getParent(child.id);
+    const parent = state.getParent(child.id!);
     
     if (!parent) return;
+    const parentNode = state.getNode(parent.id!);
 
-    const isEveryChildChecked = parent.children?.every(child => child.checkedStatus == 'true');
-    const hasIntermediate = parent.children?.some(child => child.checkedStatus == 'indeterminate');
-    const hasAnUncheckedChild = parent.children?.some(child => child.checkedStatus == 'false' || !child.checkedStatus);
-    const hasACheckedChild = parent.children?.some(child => child.checkedStatus == 'true');    
+    if (parent.children) {
+      const isEveryChildChecked = parent.children.every(child => child.checked);
+      const someUnChecked = parent.children.some(child => !child.checked);
+      const someChecked = parent.children.some(child => child.checked || state.getNode(child.id!).indeterminate);
+      const intermediate = someChecked && someUnChecked;  
 
-    if (isEveryChildChecked) {
-        parent.checkedStatus = 'true';
+      if (isEveryChildChecked) {
+        parentNode.checked = true;
+        parentNode.indeterminate = false;
+      }
+      else if (intermediate) {
+        parentNode.checked = false;
+        parentNode.indeterminate = true
+      }
+      else {
+        parentNode.checked = false;
+        parentNode.indeterminate = false;
+      }
     }
-    else if (hasIntermediate || (hasAnUncheckedChild && hasACheckedChild)) {
-        parent.checkedStatus = 'indeterminate';
-    } else {
-        parent.checkedStatus = 'false';
-    }
 
-    state.emitItemCheckedChange(parent);
-    notifyParentOfSelection(parent, state);
+    updateParentCheckState(parent, state);
 }

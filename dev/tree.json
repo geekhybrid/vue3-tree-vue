@@ -1,28 +1,23 @@
 [
   {
     "name": "Rejection Emails",
-    "id": 1,
     "type": "emails",
     "children": [
       {
         "name": "List of Rejection Emails",
-        "id": 2,
         "type": ".excel"
       },
       {
         "name": "Handling Rejection Through Open-sourcing User Guide",
-        "id": 3,
         "type": ".doc"
       },
       {
         "name": "Leet Code Tracking Sheet",
-        "id": 4,
         "type": "folder",
         "children": [
           {
             "name": "Solved Problems (30)",
-            "type": ".excel",
-            "id": 5
+            "type": ".excel"
           },
           {
             "name": "Unsolved Problems (5000)",
@@ -60,7 +55,10 @@
   {
     "name": "System Design Playlist",
     "id": 9,
+    "expanded": true,
     "type": ".playlist",
+    "checked": true,
+    "disabled": true,
     "children": [
       {
         "name": "Space Station Design",
@@ -78,5 +76,13 @@
         "id": 12
       }
     ]
+  },
+  {
+    "name": "Lazyloaded",
+    "id": 389813,
+    "expanded": true,
+    "type": ".playlist",
+    "checked": true,
+    "disabled": true
   }
 ]
