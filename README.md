@@ -8,7 +8,8 @@ A Simple vue3 project for rendering items in a tree.
     <vue3-tree-vue :items="items" 
                    :isCheckable="false"  //Set to true if you want to get checkable items
                    :hideGuideLines="false"
-                   @onCheck="onItemChecked" 
+                   @on-check="onItemChecked"
+                   @dropValidator="onBeforeItemDropped"
                    @onSelect="onItemSelected"
                    @onExpanded="lazyLoadNode"
                    >
@@ -28,6 +29,15 @@ import 'vue3-tree-vue/dist/style.css'; // remember to add this in your component
   setup() {
     const onItemChecked = (checkedItems: TreeViewItem[]) => console.log(checkedItems);
     const onItemSelected = (item: TreeViewItem) => console.log(item);
+    const onBeforeItemDropped = (droppedItem: TreeViewItem, dropHost: TreeViewItem | undefined) => {
+      // dropHost == undefined means dropping at the root of the tree.
+      
+      // Here you can specify any kind of drop validation you will like.
+      // this function should return true if the drop operation is valid.
+
+      if (dropHost.type !== playlist) return false
+      return true;
+    }
     const onExpanded = (expandedItem: TreeViewItem) => {
       //fetch data
       const lazyLoadedItems = fetchFromApi(...);
@@ -59,6 +69,7 @@ import 'vue3-tree-vue/dist/style.css'; // remember to add this in your component
 | lazyLoad | `false` | Determines if the tree supports lazy-loading
 | isCheckable | `false` | Defines if items can be selected (one at a time) or selected (using a checkbox)
 | checkboxStyle | undefined | Defines the style to be applied to the checkboxes on the tree.
+| dropValidator | undefined | Specifies a callback of drag and drop rules.
 
 ## Basic properties of each tree-node.
 

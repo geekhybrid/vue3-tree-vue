@@ -14,11 +14,11 @@ export function useGraph(
     itemCheckedEventHandler: (checkedItems: TreeViewItem[]) => void,
     itemExpandedEventHandler: (expandedItem: TreeViewItem) => void,
     itemCollapsedEventHandler: (collapsedItem: TreeViewItem) => void): TreeState {
-    const childParentLookUp: Record<string | number, _InternalItem>  = {};
+    const childParentLookUp: Record<string | number, _InternalItem | undefined>  = {};
     const nodeLookUp: Record<string, _InternalItem> = {};
 
     const getParent = (childId: string | number) => childParentLookUp[childId];
-    const trackNode = (node: _InternalItem, parentNode: _InternalItem) => {
+    const trackNode = (node: _InternalItem, parentNode: _InternalItem | undefined) => {
       if (!node.id) {
         node.id = crypto.randomUUID();
       }
@@ -27,10 +27,7 @@ export function useGraph(
       childParentLookUp[node.id] = parentNode
     };
 
-    console.log(items);
-
     const detach = (id: string | number) => {
-      console.log(id, childParentLookUp);
       const parent = childParentLookUp[id];
       if (parent == null) {
         items.value = items.value.filter(item => item.id != id);
@@ -39,6 +36,11 @@ export function useGraph(
         parent.children = parent.children?.filter(child => child.id != id);
       }
       delete(childParentLookUp[id]);
+    }
+
+    const attach = (item: _InternalItem) => {
+      items.value.push(item);
+      trackNode(item, undefined);
     }
 
     const emitItemSelected = (node: TreeViewItem) => {
@@ -60,6 +62,7 @@ export function useGraph(
         emitItemCheckedChange,
         emitItemSelected,
         emitItemExpanded: itemExpandedEventHandler,
-        emitItemCollapsed: itemCollapsedEventHandler
+        emitItemCollapsed: itemCollapsedEventHandler,
+        attach
     }
 }

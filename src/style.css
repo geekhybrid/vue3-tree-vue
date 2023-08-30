@@ -18,9 +18,15 @@ li {
     border-radius: 4px;
 }
 
-li.drag-over {
-    background-color: rgba(22, 22, 22, 0.068);
+.tree-item__drag-over {
+    background-color: rgba(22, 22, 22, 0.068) !important;
 }
+
+
+.root__drag-over {
+  border-left: 6px solid #ccc !important;
+}
+
 
 .chevron-right {
     color: gray;
