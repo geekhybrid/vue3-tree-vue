@@ -2,7 +2,7 @@ import { IsValidDropCallback, TreeState, TreeViewItem, _InternalItem, _TREE_STAT
 import TreeItemComponent from "./tree-item.vue";
 import { useTreeViewItemMouseActions } from "../src/composables/use-tree-mouse-actions";
 import { useGraph } from "./composables/use-graph";
-import { computed, defineComponent, inject, PropType, provide, ref } from "vue";
+import { computed, defineComponent, inject, PropType, provide, ref, watch } from "vue";
 
 export default defineComponent({
     name: 'tree-view',
@@ -20,22 +20,27 @@ export default defineComponent({
             default: false
         },
         onDropValidator: {
-            type: Function as PropType<IsValidDropCallback>,
-            default: () => { () => true; }
+            type: Function as PropType<IsValidDropCallback | undefined>,
         },
         treeState: {
             type: Object as PropType<TreeState>
         },
         checkboxStyle: {
           type: String
+        },
+        lazyLoad: {
+            type: Boolean
         }
     },
     components: { 'treeview-item': TreeItemComponent },
-    emits: ['onContextMenu', 'onSelect', 'onCheck'],
+    emits: ['onContextMenu', 'onSelect', 'onCheck', 'onExpand', 'onCollapse'],
     
     setup(props, { emit, attrs}) {
+        const reactiveItems = ref<TreeViewItem[]>([]);
+
+        watch(() => props.items, () => reactiveItems.value = props.items, { immediate: true });
         const parent = computed<TreeViewItem>(() => attrs.parent as TreeViewItem);
-        const internalItems = computed<_InternalItem[]>(() => props.items.map(item => item as _InternalItem));
+        const internalItems = computed<_InternalItem[]>(() => reactiveItems.value.map(item => item as _InternalItem));
 
         const treeState = ref<TreeState>();
         // Create a tree state object for only root nodes.
@@ -43,8 +48,11 @@ export default defineComponent({
 
         if (!treeState.value) {
           treeState.value = useGraph(
+            reactiveItems,
             (selectedItem: TreeViewItem) => emit('onSelect', selectedItem),
-            (checkedItems: TreeViewItem[]) => emit('onCheck', checkedItems)
+            (checkedItems: TreeViewItem[]) => emit('onCheck', checkedItems),
+            (expandedItem: TreeViewItem) => emit('onExpand', expandedItem),
+            (collapsedItem: TreeViewItem) => emit('onCollapse', collapsedItem)
           );
   
           provide<TreeState>(_TREE_STATE_PROVIDER_INJECT_KEY, treeState.value); 

@@ -38,10 +38,12 @@ export default defineComponent({
         <vue3-tree-vue :items="items"
           :isCheckable="isCheckable"
           :hideGuideLines="false"
+          :lazy-load="true"
+          @dropValidator="(_, __) => true"
           @onSelect="onItemSelected"
           @onCheck="onItemChecked"
           :expandAll="true"
-          style="width: 800px; display: block; border-right: 1px solid gray">
+          style="width: 800px; display: block; border-right: 1px solid gray;">
           <template v-slot:item-prepend-icon="treeViewItem" >
               <img src="./assets/folder.svg" alt="folder" 
                   v-if="treeViewItem.type === 'folder'"

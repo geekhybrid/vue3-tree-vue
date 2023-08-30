@@ -2,7 +2,7 @@
   <div class="d-flex align-items-center" @contextmenu.prevent="$emit('onContextMenu', { item, event: $event })">
     <div class="horizontal-dashes" v-if="parent != null"></div>
 
-    <div @click="toggleExpand()" v-show="item.children && item.children.length > 0">
+    <div @click="toggleExpand()" v-show="lazyLoad || item.children && item.children.length > 0">
       <slot name="expander">
         <span class="chevron-right" ref="chevron"></span>
       </slot>
@@ -11,7 +11,7 @@
     <div class="pointer tree-item" :class="{ 'selected-tree-item': !isCheckable && item.selected }" style="width: 100%">
       <div v-if="!isRenaming" @dblclick="beginRenaming">
         <div v-if="isCheckable" class="tree-item__checkbox-area">
-          <input @contextmenu.prevent @change="updateCheckState" type="checkbox" ref="checkbox" />
+          <input @contextmenu.prevent @change="updateCheckState" type="checkbox" ref="checkbox" :disabled="item.disabled" :class="checkboxStyle" />
           <div class="d-flex">
             <div class="tiny_horizontal_margin">
               <slot name="icon"></slot>

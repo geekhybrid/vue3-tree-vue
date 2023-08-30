@@ -29,7 +29,7 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "serve": "cross-env NODE_OPTIONS='--openssl-legacy-provider' vue-cli-service serve dev/serve.ts",
+    "serve": "cross-env NODE_OPTIONS='--openssl-legacy-provider' vue-cli-service serve dev/serve.ts --port 3000",
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup --config build/rollup.config.js",
     "build:ssr": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format umd",

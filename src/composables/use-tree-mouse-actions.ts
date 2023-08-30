@@ -1,19 +1,35 @@
-import { TreeViewItem, _InternalItem } from "../types";
+import { IsValidDropCallback, TreeState, TreeViewItem, _InternalItem } from "../types";
 
 export function useTreeViewItemMouseActions() {
     const addHoverClass = (event: DragEvent): void => {
         const target = event.currentTarget as HTMLElement;
 
         if (target) {
-            target.classList.add('drag-over')
+            target.classList.add('tree-item__drag-over')
         }
+    }
+
+    const addRootHoverClass = (event: DragEvent, isRootNode: boolean): void => {
+      if (!isRootNode) return;
+      const target = event.currentTarget as HTMLElement;
+
+        if (target) {
+            target.classList.add('root__drag-over')
+        }
+    }
+
+    const removeRootHoverClass =(event: DragEvent, isRootNode: Boolean): void => {
+      if (!isRootNode) return;
+      const target = event.currentTarget as HTMLElement;
+      if (target) {
+          target.classList.remove('root__drag-over');
+      }
     }
 
     const removeHoverClass =(event: DragEvent): void => {
         const target = event.currentTarget as HTMLElement;
-
         if (target) {
-            target.classList.remove('drag-over');
+            target.classList.remove('tree-item__drag-over');
         }
     }
 
@@ -23,17 +39,27 @@ export function useTreeViewItemMouseActions() {
         }
     }
 
-    const onDropNode = (dropHost: _InternalItem, event: DragEvent, isDropValid: (item1: _InternalItem, item2: _InternalItem) => boolean): void => {
+    const onDropNode = (dropHost: _InternalItem | undefined, event: DragEvent, isDropValid: IsValidDropCallback | undefined, state: TreeState): void => {
         if (event.dataTransfer) {
-            const droppedNode = JSON.parse(event.dataTransfer.getData('text/plain')) as _InternalItem;
-
             removeHoverClass(event)
+            const droppedNode = JSON.parse(event.dataTransfer.getData('text/plain')) as _InternalItem;
+            if (!isDropValid || !isDropValid(droppedNode, dropHost)) return;
 
-            if (droppedNode.id === dropHost.id) {
+
+            
+            if (dropHost && droppedNode.id === dropHost.id) {
                 return
             }
             
-            if (!isDropValid(droppedNode, dropHost)) return;
+            state.detach(droppedNode.id);
+
+            if (dropHost && !dropHost.children)
+                dropHost.children = [];
+
+            if(dropHost)
+              dropHost!.children!.push(droppedNode);
+            else
+              state.attach(droppedNode);// Dropping into root
         }
     }
 
@@ -42,6 +68,8 @@ export function useTreeViewItemMouseActions() {
         addHoverClass,
         removeHoverClass,
         onDragNode,
-        onDropNode
+        onDropNode,
+        addRootHoverClass,
+        removeRootHoverClass
     }
 }

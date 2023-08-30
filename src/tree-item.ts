@@ -1,4 +1,4 @@
-import { computed, defineComponent, inject, nextTick, onMounted, onUnmounted, PropType, ref, watch } from "vue";
+import { computed, defineComponent, inject, nextTick, onMounted, PropType, ref, watch } from "vue";
 import { updateChildrenCheckState, updateParentCheckState } from "./composables/use-tree-traversal";
 import { TreeState, TreeViewItem, _InternalItem, _TREE_STATE_PROVIDER_INJECT_KEY } from "./types";
 
@@ -13,6 +13,12 @@ export default defineComponent({
             type: Boolean
         },
         canRename: {
+            type: Boolean
+        },
+        checkboxStyle: {
+            type: String
+        },
+        lazyLoad: {
             type: Boolean
         }
     },
@@ -39,8 +45,6 @@ export default defineComponent({
               props.item.checked = parent.value?.checked;
             }
         });
-        
-        onUnmounted(() => treeState.untrackNode(props.item));
 
         const updateCheckState = () =>  {
           props.item.checked = checkbox.value?.checked;
@@ -56,12 +60,16 @@ export default defineComponent({
             () => checkbox.value!.indeterminate = props.item.indeterminate
         );
 
-
-
         watch(
           () => props.item.checked, 
           () => setCheckboxState()
         );
+
+        watch(
+          () => props.item.children?.length,
+          () => props.item.children?.forEach(child => treeState?.trackNode(child, props.item))
+        )
+
 
         const isRenaming = ref(false);
         const renameBox = ref<HTMLInputElement>();
@@ -83,11 +91,17 @@ export default defineComponent({
         const chevron = ref<HTMLSpanElement>();
         const toggleExpand = () => {
             chevron.value?.classList.toggle("rotate-90");
+            props.item.expanded = !props.item.expanded;
+
+            if (props.item.expanded)
+              treeState.emitItemExpanded(props.item);
+            else
+              treeState.emitItemCollapsed(props.item);
+
             const element = document.getElementById(props.item.id)?.getElementsByClassName('node-child');
             
             if (!element || !element[0]) return;
             element[0].classList.toggle('hide');
-            props.item.expanded = !props.item.expanded;
         }
 
         return {
