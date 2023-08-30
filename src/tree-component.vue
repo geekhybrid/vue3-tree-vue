@@ -17,7 +17,7 @@
                 :draggable="onDropValidator != undefined"
                 @dragstart.stop="onDragNode(treeViewItem, $event)"
                 @dragleave.stop="removeHoverClass"
-                @drop.prevent.stop="(e: DragEvent) => onDropNode(treeViewItem, e, onDropValidator, treeState!)"
+                @drop.prevent.stop="onDropNode(treeViewItem, $event, onDropValidator, treeState!)"
                 @dragover.stop="addHoverClass"
                 :checkboxStyle="checkboxStyle"
                 :isCheckable="isCheckable"

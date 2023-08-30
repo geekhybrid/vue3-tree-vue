@@ -8,7 +8,7 @@ A Simple vue3 project for rendering items in a tree.
     <vue3-tree-vue :items="items" 
                    :isCheckable="false"  //Set to true if you want to get checkable items
                    :hideGuideLines="false"
-                   @on-check="onItemChecked"
+                   @onCheck="onItemChecked"
                    @dropValidator="onBeforeItemDropped"
                    @onSelect="onItemSelected"
                    @onExpanded="lazyLoadNode"
