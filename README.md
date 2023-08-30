@@ -55,9 +55,11 @@ import 'vue3-tree-vue/dist/style.css'; // remember to add this in your component
 
 ![image](https://user-images.githubusercontent.com/39003759/144714401-f0c005d0-80e9-4288-aa7a-80b035145e77.png)
 
-
-
 ![image](https://user-images.githubusercontent.com/39003759/144714480-b29d8483-6cbf-45ac-9a43-a0e5c7b5e138.png)
+
+## Drag and Drop
+![GIF](https://github.com/geekhybrid/vue3-tree-vue/assets/39003759/6cd0e3cb-ff17-4272-bcbb-386b96fa9ccc)
+
 
 
 ## Properties of the TreeView
