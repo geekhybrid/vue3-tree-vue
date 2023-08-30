@@ -22,7 +22,7 @@
           </div>
           <label for="checkbox" v-if="!isRenaming" class="pointer">{{ item.name }}</label>
         </div>
-        <div class="d-flex" v-else @click="treeState!.emitItemSelected(item)">
+        <div class="d-flex" v-else @click="treeState?.emitItemSelected(item)">
           <div class="tiny_horizontal_margin">
             <slot name="icon"></slot>
           </div>

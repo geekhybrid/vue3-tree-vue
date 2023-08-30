@@ -4,7 +4,7 @@
         @dragenter.stop.prevent
         @dragover.stop="addRootHoverClass($event, parent == null)"
         @dragleave.stop="removeRootHoverClass($event, parent == null)"
-        @drop.prevent.stop="onDropNode(undefined, $event, onDropValidator, treeState!); removeRootHoverClass($event, parent == null)">
+        @drop.prevent.stop="onDropNode(undefined, $event, onDropValidator, treeState); removeRootHoverClass($event, parent == null)">
         <li v-for="treeViewItem in internalItems" 
             :key="treeViewItem.id"
             :id="treeViewItem.id"
@@ -17,7 +17,7 @@
                 :draggable="onDropValidator != undefined"
                 @dragstart.stop="onDragNode(treeViewItem, $event)"
                 @dragleave.stop="removeHoverClass"
-                @drop.prevent.stop="onDropNode(treeViewItem, $event, onDropValidator, treeState!)"
+                @drop.prevent.stop="onDropNode(treeViewItem, $event, onDropValidator, treeState)"
                 @dragover.stop="addHoverClass"
                 :checkboxStyle="checkboxStyle"
                 :isCheckable="isCheckable"

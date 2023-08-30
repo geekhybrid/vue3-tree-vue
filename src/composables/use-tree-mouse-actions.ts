@@ -39,7 +39,7 @@ export function useTreeViewItemMouseActions() {
         }
     }
 
-    const onDropNode = (dropHost: _InternalItem | undefined, event: DragEvent, isDropValid: IsValidDropCallback | undefined, state: TreeState): void => {
+    const onDropNode = (dropHost: _InternalItem | undefined, event: DragEvent, isDropValid: IsValidDropCallback | undefined, state: TreeState | undefined): void => {
         if (event.dataTransfer) {
             removeHoverClass(event)
             const droppedNode = JSON.parse(event.dataTransfer.getData('text/plain')) as _InternalItem;
@@ -51,7 +51,7 @@ export function useTreeViewItemMouseActions() {
                 return
             }
             
-            state.detach(droppedNode.id);
+            state!.detach(droppedNode.id);
 
             if (dropHost && !dropHost.children)
                 dropHost.children = [];
@@ -59,7 +59,7 @@ export function useTreeViewItemMouseActions() {
             if(dropHost)
               dropHost!.children!.push(droppedNode);
             else
-              state.attach(droppedNode);// Dropping into root
+              state!.attach(droppedNode);// Dropping into root
         }
     }
 
