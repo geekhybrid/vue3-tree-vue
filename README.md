@@ -52,9 +52,10 @@ import 'vue3-tree-vue/dist/style.css'; // remember to add this in your component
     }
   }
 ```
-
+## Selectable Tree Items
 ![image](https://user-images.githubusercontent.com/39003759/144714401-f0c005d0-80e9-4288-aa7a-80b035145e77.png)
 
+## Checkable Tree Items
 ![image](https://user-images.githubusercontent.com/39003759/144714480-b29d8483-6cbf-45ac-9a43-a0e5c7b5e138.png)
 
 ## Drag and Drop
