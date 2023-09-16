@@ -2,6 +2,7 @@
   {
     "name": "Rejection Emails",
     "type": "emails",
+    "expanded": true,
     "children": [
       {
         "name": "List of Rejection Emails",
@@ -14,6 +15,7 @@
       {
         "name": "Leet Code Tracking Sheet",
         "type": "folder",
+        "expanded": true,
         "children": [
           {
             "name": "Solved Problems (30)",
@@ -23,6 +25,7 @@
             "name": "Unsolved Problems (5000)",
             "type": "folder",
             "id": 6,
+            "expanded": true,
             "children": [
               {
                 "name": "Inverting a linked list (lol)",
@@ -54,11 +57,8 @@
   },
   {
     "name": "System Design Playlist",
-    "id": 9,
-    "expanded": true,
+    "id": 993029302938,
     "type": ".playlist",
-    "checked": true,
-    "disabled": true,
     "children": [
       {
         "name": "Space Station Design",
@@ -80,7 +80,6 @@
   {
     "name": "Lazyloaded",
     "id": 389813,
-    "expanded": true,
     "type": ".playlist",
     "checked": true,
     "disabled": true
