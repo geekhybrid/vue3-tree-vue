@@ -32,10 +32,6 @@ export default defineComponent({
 
         onMounted(() => {
             treeState.trackNode(props.item, parent.value);
-
-            if (props.item.expanded) {
-              toggleExpand();
-            }
             if (props.item.checked) {
               setCheckboxState();
               updateParentCheckState(props.item!, treeState);

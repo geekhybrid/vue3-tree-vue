@@ -28,8 +28,8 @@
                 <template v-slot:prepend><slot name="item-prepend" v-bind="treeViewItem"></slot></template>
                 <template v-slot:expander><slot name="item-expander" v-bind="treeViewItem"></slot></template>
             </treeview-item>
-            <div class="node-child hide"
-                :class="{'nested': parent != null, 'root': parent == undefined}" 
+            <div class="node-child"
+                :class="{'nested': parent != null, 'root': parent == undefined, 'hide': !treeViewItem.expanded }" 
                 v-if="treeViewItem.children && treeViewItem.children.length > 0">
                     <tree-view :items="treeViewItem.children"
                         :hideGuideLines="hideGuideLines"
