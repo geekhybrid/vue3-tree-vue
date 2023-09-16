@@ -1,6 +1,14 @@
 import { TreeState, TreeViewItem, _InternalItem } from "@/types";
 import { Ref } from "vue";
 
+
+export function uuidv4() {
+  return ('10000000-1000-4000-8000-100000000000').replace(/[018]/g, c =>
+    (Number.parseFloat(c) ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> Number.parseFloat(c) / 4).toString(16)
+  );
+}
+
+
 // TODO: Watch children length: When node is deleted: Remove from graph.
 /**
  * Initialises the root state of a tree.
@@ -20,7 +28,7 @@ export function useGraph(
     const getParent = (childId: string | number) => childParentLookUp[childId];
     const trackNode = (node: _InternalItem, parentNode: _InternalItem | undefined) => {
       if (!node.id) {
-        node.id = crypto.randomUUID();
+        node.id = uuidv4();
       }
 
       nodeLookUp[node.id] = node;
