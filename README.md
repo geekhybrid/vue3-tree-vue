@@ -85,6 +85,7 @@ export interface TreeViewItem {
   selected?: boolean;
   expanded?: boolean;
   disabled?: boolean;// When disabled, an item can neither be selected or checked
+  meta?: any;// provides meta-data of any type per node.
 }
 ```
 
