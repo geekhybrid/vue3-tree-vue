@@ -62,6 +62,11 @@ export default defineComponent({
         );
 
         watch(
+          () => props.item.expanded,
+          () => toggleExpand(false)
+        )
+
+        watch(
           () => props.item.children?.length,
           () => props.item.children?.forEach(child => treeState?.trackNode(child, props.item))
         )
@@ -85,9 +90,10 @@ export default defineComponent({
         }
 
         const chevron = ref<HTMLSpanElement>();
-        const toggleExpand = () => {
+        const toggleExpand = (shouldSet: boolean = true) => {
             chevron.value?.classList.toggle("rotate-90");
-            props.item.expanded = !props.item.expanded;
+            if (shouldSet)
+              props.item.expanded = !props.item.expanded;
 
             if (props.item.expanded)
               treeState.emitItemExpanded(props.item);
