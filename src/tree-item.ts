@@ -95,13 +95,18 @@ export default defineComponent({
         const chevron = ref<HTMLSpanElement>();
         const toggleExpand = (shouldSet: boolean = true) => {
             chevron.value?.classList.toggle("rotate-90");
-            if (shouldSet)
-              props.item.expanded = !props.item.expanded;
+            /// `expanded` can be set programmatically. When this is the case `shouldSet` is false
+            /// see watch(props.item.expanded)
+            /// the component should not bother flipping the expanded or firing the 
+            /// expanded/collapsed events.
 
-            if (props.item.expanded)
-              treeState.emitItemExpanded(props.item);
-            else
-              treeState.emitItemCollapsed(props.item);
+            if (shouldSet) {
+              props.item.expanded = !props.item.expanded;
+              if (props.item.expanded)
+                treeState.emitItemExpanded(props.item);
+              else
+                treeState.emitItemCollapsed(props.item);
+            }
 
             const element = document.getElementById(props.item.id)?.getElementsByClassName('node-child');
             
