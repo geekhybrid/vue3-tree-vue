@@ -9,7 +9,7 @@
     * Add a dashed border to the left of all but the last child in a parent node.
     * There will be a gap between the bottom of this tree-item-node and the top of the next sibling.
     */
-  .tree-item-node-parent .tree-item-node:not(:last-child) {
+    .node-child > .tree-item-node-parent .tree-item-node:not(:last-child) {
     position: relative;
     border-left: 1px dashed rgb(192, 192, 192);
     border-radius: 0;
@@ -20,7 +20,7 @@
     * use the ::before pseudo-element to create a dashed line that extends down to the next sibling.
     * This will be applied to all but the last child in a parent node, and fill in the gap mentioned above.
     */
-  .tree-item-node-parent .tree-item-node:not(:last-child)::before {
+    .node-child > .tree-item-node-parent .tree-item-node:not(:last-child)::before {
     content: "";
     position: absolute;
     top: 100%; /* Extend below the actual element */
@@ -39,7 +39,7 @@
   * Since we rely on the previous sibling to fill in the gap by extending down, 
   * only-child elements will need to extend up to fill in the gap.
   */
-  .tree-item-node-parent .tree-item-node:only-child >  .tree-view-item >  .horizontal-dashes::before {
+  .node-child > .tree-item-node-parent .tree-item-node:only-child >  .tree-view-item >  .horizontal-dashes::before {
     content: "";
     position: absolute;
     bottom: 50%; /* Extend above the actual element */
