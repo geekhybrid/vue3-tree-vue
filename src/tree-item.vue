@@ -3,8 +3,8 @@
     <div class="horizontal-dashes" v-if="parent != null && !hideGuideLines"></div>
 
     <div @click="toggleExpand()" v-show="lazyLoad || item.children && item.children.length > 0">
-      <slot name="expander">
-        <span class="chevron-right" ref="chevron"></span>
+      <slot name="expander" v-bind="item">
+        <span class="chevron-right" :class="{'rotate-90' : item.expanded }"></span>
       </slot>
     </div>
 

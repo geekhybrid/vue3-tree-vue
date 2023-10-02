@@ -92,9 +92,7 @@ export default defineComponent({
             emit("on-rename", props.item);
         }
 
-        const chevron = ref<HTMLSpanElement>();
         const toggleExpand = (shouldSet: boolean = true) => {
-            chevron.value?.classList.toggle("rotate-90");
             /// `expanded` can be set programmatically. When this is the case `shouldSet` is false
             /// see watch(props.item.expanded)
             /// the component should not bother flipping the expanded or firing the 
@@ -107,16 +105,10 @@ export default defineComponent({
               else
                 treeState.emitItemCollapsed(props.item);
             }
-
-            const element = document.getElementById(props.item.id)?.getElementsByClassName('node-child');
-            
-            if (!element || !element[0]) return;
-            element[0].classList.toggle('hide');
         }
 
         return {
             toggleExpand,
-            chevron,
             treeState,
             updateCheckState,
             isRenaming,
