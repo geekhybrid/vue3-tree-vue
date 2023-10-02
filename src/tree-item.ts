@@ -20,6 +20,9 @@ export default defineComponent({
         },
         lazyLoad: {
             type: Boolean
+        },
+        hideGuideLines: {
+          type: Boolean
         }
     },
     emits: ["on-rename", "onContextMenu"],

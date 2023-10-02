@@ -37,7 +37,7 @@ export default defineComponent({
       <div style="display: flex">
         <vue3-tree-vue :items="items"
           :isCheckable="isCheckable"
-          :hideGuideLines="false"
+          :hideGuideLines="true"
           :lazy-load="true"
           @dropValidator="(_, __) => true"
           @onSelect="onItemSelected"
