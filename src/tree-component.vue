@@ -48,4 +48,5 @@
         </li>
     </ul>
 </template>
+<style src="./style.css" lang="css" />
 <script src="./tree-component.ts" lang="ts" />   

@@ -3,7 +3,6 @@ import json from './tree.json';
 import Vue3TreeVue from '@/tree-component.vue';
 import { ref } from '@vue/reactivity';
 import { defineComponent } from '@vue/runtime-core';
-import '@/style.css';
 import { TreeViewItem } from '@/types';
 
 export default defineComponent({
