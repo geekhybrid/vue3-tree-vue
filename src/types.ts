@@ -6,6 +6,7 @@ export interface TreeViewItem {
   selected?: boolean;
   expanded?: boolean;
   disabled?: boolean;
+  checkable?: boolean;
   meta?: any;
 }
 

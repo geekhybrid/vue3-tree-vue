@@ -3,6 +3,23 @@
     color: white;
   }
   
+
+.no-guide .tree-item-node {
+  border: none !important;
+}
+.no-guide .tree-item-node::before {
+  border: none !important;
+}
+
+.no-guide .horizontal-dashes {
+  border: none !important;
+}
+
+.no-guide .horizontal-dashes::before {
+  border: none !important;
+}
+
+
   
   /**
     * Create Vertical Guideline
