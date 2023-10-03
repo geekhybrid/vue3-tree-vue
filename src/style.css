@@ -2,6 +2,22 @@
     background: rgba(235, 106, 59, 0.795);
     color: white;
   }
+
+.tree-item:hover .on-item-hover{
+  display: block;
+}
+
+.tree-item .on-item-hover{
+  display: none;
+}
+
+.tree-item-node:hover li > .on-item-hover{
+  display: block;
+}
+
+.tree-item-node li > .on-item-hover{
+  display: none;
+}
   
 
 .no-guide .tree-item-node {

@@ -75,11 +75,11 @@ export default defineComponent({
           </template>
 
           <template v-slot:item-append="treeViewItem">
-              <span v-if="treeViewItem.type === 'emails'"><button title="New Email"> item-append</button></span>
+              <span class="on-item-hover" v-if="treeViewItem.type === 'emails'"><button title="New Email"> item-append</button></span>
           </template>
 
           <template v-slot:child-append="treeViewItem">
-            <span v-if="treeViewItem.id === 6">
+            <span  v-if="treeViewItem.id === 6">
               <button>child-append for Unsolved Problems</button>
             </span>
           </template>

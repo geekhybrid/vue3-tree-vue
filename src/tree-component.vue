@@ -21,7 +21,7 @@
                 @drop.prevent.stop="onDropNode(treeViewItem, $event, onDropValidator, treeState)"
                 @dragover.stop="addHoverClass"
                 :checkboxStyle="checkboxStyle"
-                :isCheckable="isCheckable || treeViewItem.checkable"
+                :isCheckable="isCheckable"
                 :treeState="treeState"
                 :lazyLoad="lazyLoad"
                 @contextmenu.prevent="$emit('onContextMenu', { item: treeViewItem, event: $event })">
@@ -41,7 +41,7 @@
                         :lazyLoad="lazyLoad"
                         :checkboxStyle="checkboxStyle"
                         :parent="treeViewItem"
-                        :isCheckable="isCheckable || treeViewItem.checkable"
+                        :isCheckable="isCheckable"
                         @onContextMenu="$emit('onContextMenu', $event)">
                         <template v-for="(_, slot) of $slots" v-slot:[slot]="props">
                             <slot :name="slot" v-bind="props"></slot>

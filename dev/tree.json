@@ -23,7 +23,6 @@
           },
           {
             "name": "Unsolved Problems (5000)",
-            "checkable": true,
             "type": "folder",
             "id": 6,
             "expanded": true,

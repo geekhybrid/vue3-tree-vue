@@ -84,7 +84,6 @@ export interface TreeViewItem {
   checked?: boolean;
   selected?: boolean;
   expanded?: boolean;
-  checkable: boolean; //Overrides Treeview isCheckable to allow checking of individual items
   disabled?: boolean;// When disabled, an item can neither be selected or checked
   meta?: any;// provides meta-data of any type per node.
 }
@@ -114,3 +113,9 @@ export interface TreeViewItem {
 | item-expander | Defines a slot for custom expander implementations 
 | item-append | Defines a slot for adding custom content after the item name 
 | child-append | Defines a slot for adding a custom item after the last child
+
+## Classes 
+
+| Name | Description |
+| -------------|-------------
+| on-item-hove | Use in `child-append` and `item-append` slots to only show when the cursor is hovering on the node 
