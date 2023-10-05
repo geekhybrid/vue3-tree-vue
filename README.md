@@ -118,4 +118,4 @@ export interface TreeViewItem {
 
 | Name | Description |
 | -------------|-------------
-| on-item-hove | Use in `child-append` and `item-append` slots to only show when the cursor is hovering on the node 
+| on-item-hover | Use in `child-append` and `item-append` slots to only show when the cursor is hovering on the node 
