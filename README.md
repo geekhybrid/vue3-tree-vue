@@ -111,3 +111,11 @@ export interface TreeViewItem {
 | item-prepend-icon | Defines the node's prepend icon.
 | item-prepend | Defines a slot to house content before the node's label. 
 | item-expander | Defines a slot for custom expander implementations 
+| item-append | Defines a slot for adding custom content after the item name 
+| child-append | Defines a slot for adding a custom item after the last child
+
+## Classes 
+
+| Name | Description |
+| -------------|-------------
+| on-item-hover | Use in `child-append` and `item-append` slots to only show when the cursor is hovering on the node 

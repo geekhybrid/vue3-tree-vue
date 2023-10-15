@@ -1,5 +1,6 @@
 <template>
     <ul id="explorer" class="explorer tree-item-node-parent"
+        :class="{'no-guide': hideGuideLines}"
         @dragover.stop.prevent
         @dragenter.stop.prevent
         @dragover.stop="addRootHoverClass($event, parent == null)"
@@ -28,6 +29,8 @@
                 <template v-slot:icon><slot name="item-prepend-icon" v-bind="treeViewItem"></slot></template>
                 <template v-slot:prepend><slot name="item-prepend" v-bind="treeViewItem"></slot></template>
                 <template v-slot:expander><slot name="item-expander" v-bind="treeViewItem"></slot></template>
+                <template v-slot:name><slot name="item-name" v-bind="treeViewItem"></slot></template>
+                <template v-slot:append><slot name="item-append" v-bind="treeViewItem"></slot></template>
             </treeview-item>
             <div class="node-child"
                 :class="{'nested': parent != null, 'root': parent == undefined, 'hide': !treeViewItem.expanded, 'hide-guidelines': hideGuideLines }"
@@ -48,5 +51,9 @@
             </div>
         </li>
     </ul>
+    <li style="list-style: none;">
+        <slot v-if="parent" name="child-append" v-bind="parent"></slot>
+    </li>
 </template>
+<style src="./style.css" lang="css" />
 <script src="./tree-component.ts" lang="ts" />   

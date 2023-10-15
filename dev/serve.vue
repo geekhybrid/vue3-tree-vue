@@ -3,7 +3,6 @@ import json from './tree.json';
 import Vue3TreeVue from '@/tree-component.vue';
 import { ref } from '@vue/reactivity';
 import { defineComponent } from '@vue/runtime-core';
-import '@/style.css';
 import { TreeViewItem } from '@/types';
 
 export default defineComponent({
@@ -20,6 +19,7 @@ export default defineComponent({
 
     return {
       isCheckable: ref(true),
+      hideGuidelines: ref(false),
       items,
       onItemChecked,
       onItemSelected
@@ -31,15 +31,23 @@ export default defineComponent({
 <template>
   <div id="app">
    <div style="display: block">
+    <span>
       <label>Use check items</label>
       <input type="checkbox" v-model="isCheckable" />
+
+    </span>
+    &nbsp;
+    <span>
+      <label>Hide Guidelines</label>
+      <input type="checkbox" v-model="hideGuidelines" />
+    </span>
       <button @click="items.forEach(item => item.expanded = false)">Collapse all</button>
       <hr>
       <div style="display: flex">
         <vue3-tree-vue :items="items"
           :isCheckable="isCheckable"
-          :hideGuideLines="true"
-          :lazy-load="true"
+          :hideGuideLines="hideGuidelines"
+          :lazy-load="false"
           @dropValidator="(_, __) => true"
           @onSelect="onItemSelected"
           @onCheck="onItemChecked"
@@ -69,6 +77,18 @@ export default defineComponent({
                   v-if="treeViewItem.type === 'emails'"
                   height="20" width="20">
           </template>
+
+          <template v-slot:item-append="treeViewItem">
+              <span class="on-item-hover" v-if="treeViewItem.type === 'emails'"><button title="New Email"> item-append</button></span>
+          </template>
+
+          <template v-slot:child-append="treeViewItem">
+            <span  v-if="treeViewItem.id === 6">
+              <button>child-append for Unsolved Problems</button>
+            </span>
+          </template>
+
+
         </vue3-tree-vue>
       </div>
    </div>
@@ -79,5 +99,13 @@ export default defineComponent({
 * {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 14px;
+}
+
+button {
+    background: none;
+    border: 1px dashed blue;
+    border-radius:  4px;
+    color: blue;
+    cursor: pointer;
 }
 </style>

@@ -21,6 +21,8 @@
             </div>
           </div>
           <label for="checkbox" v-if="!isRenaming" class="pointer">{{ item.name }}</label>
+          &nbsp;
+          <slot name="append"></slot>
         </div>
         <div class="d-flex" v-else @click="treeState?.emitItemSelected(item)">
           <div class="tiny_horizontal_margin">
@@ -30,6 +32,8 @@
             <slot name="prepend"></slot>
           </div>
           <span>{{ item.name }}</span>
+          &nbsp;
+          <slot name="append"></slot>
         </div>
       </div>
       <input ref="rename-box" v-model="item.name" v-else v-on:keyup.enter="finishRenaming" @blur="finishRenaming" />
