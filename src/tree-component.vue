@@ -13,6 +13,7 @@
             <treeview-item class="pointer tree-view-item"
                 :item="treeViewItem"
                 :parent="parent"
+                :hideGuideLines="hideGuideLines"
                 @dragover.stop.prevent
                 @dragenter.stop.prevent
                 :draggable="onDropValidator != undefined"
@@ -32,7 +33,7 @@
                 <template v-slot:append><slot name="item-append" v-bind="treeViewItem"></slot></template>
             </treeview-item>
             <div class="node-child"
-                :class="{'nested': parent != null, 'root': parent == undefined, 'hide': !treeViewItem.expanded }" 
+                :class="{'nested': parent != null, 'root': parent == undefined, 'hide': !treeViewItem.expanded, 'hide-guidelines': hideGuideLines }"
                 v-if="treeViewItem.children && treeViewItem.children.length > 0">
                     <tree-view :items="treeViewItem.children"
                         :hideGuideLines="hideGuideLines"

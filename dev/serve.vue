@@ -41,6 +41,7 @@ export default defineComponent({
       <label>Hide Guidelines</label>
       <input type="checkbox" v-model="hideGuidelines" />
     </span>
+      <button @click="items.forEach(item => item.expanded = false)">Collapse all</button>
       <hr>
       <div style="display: flex">
         <vue3-tree-vue :items="items"
@@ -51,6 +52,9 @@ export default defineComponent({
           @onSelect="onItemSelected"
           @onCheck="onItemChecked"
           style="width: 800px; display: block; border-right: 1px solid gray;">
+          <template v-slot:item-expander="item">
+            <span> {{  item.expanded ? '-' : '+' }}</span>
+          </template>
           <template v-slot:item-prepend-icon="treeViewItem" >
               <img src="./assets/folder.svg" alt="folder" 
                   v-if="treeViewItem.type === 'folder'"
