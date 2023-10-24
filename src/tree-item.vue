@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex align-items-center" @contextmenu.prevent="$emit('onContextMenu', { item, event: $event })">
-    <div class="horizontal-dashes" v-if="parent != null && !hideGuideLines"></div>
+    <div class="guide-line" v-if="parent != null && !hideGuideLines"></div>
 
     <div @click="toggleExpand()" v-show="lazyLoad || item.children && item.children.length > 0">
       <slot name="expander" v-bind="item">
