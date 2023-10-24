@@ -1,5 +1,6 @@
 <template>
-    <ul id="explorer" class="explorer tree-item-node-parent"
+    <div>
+      <ul id="explorer" class="explorer tree-item-node-parent"
         :class="{'no-guide': hideGuideLines}"
         @dragover.stop.prevent
         @dragenter.stop.prevent
@@ -54,6 +55,7 @@
     <li style="list-style: none;">
         <slot v-if="parent" name="child-append" v-bind="parent"></slot>
     </li>
+  </div>
 </template>
 <style src="./style.css" lang="css" />
 <script src="./tree-component.ts" lang="ts" />   
