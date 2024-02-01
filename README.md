@@ -11,7 +11,7 @@ A Simple vue3 project for rendering items in a tree.
                    @onCheck="onItemChecked"
                    @dropValidator="onBeforeItemDropped"
                    @onSelect="onItemSelected"
-                   @onExpanded="lazyLoadNode"
+                   @onExpand="onItemExpanded"
                    >
       <!-- Applying some simple styling to tree-items -->
        <template v-slot:item-prepend-icon="treeViewItem" >
@@ -38,7 +38,8 @@ import 'vue3-tree-vue/dist/style.css'; // remember to add this in your component
       if (dropHost.type !== playlist) return false
       return true;
     }
-    const onExpanded = (expandedItem: TreeViewItem) => {
+    const onItemExpanded = (expandedItem: TreeViewItem) => {
+      //to use this feature properly you need to set lazyLoad property as true 
       //fetch data
       const lazyLoadedItems = fetchFromApi(...);
       expandedItem.children.push(...lazyLoadedItems)
@@ -48,6 +49,8 @@ import 'vue3-tree-vue/dist/style.css'; // remember to add this in your component
     return {
       onItemChecked,
       onItemSelected,
+      onBeforeItemDropped,
+      onItemExpanded,
       items
     }
   }
@@ -84,7 +87,7 @@ export interface TreeViewItem {
   checked?: boolean;
   selected?: boolean;
   expanded?: boolean;
-  disabled?: boolean;// When disabled, an item can neither be selected or checked
+  disabled?: boolean;// When disabled, an item can neither be selected nor checked
   meta?: any;// provides meta-data of any type per node.
 }
 ```
