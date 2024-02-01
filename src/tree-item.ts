@@ -20,6 +20,9 @@ export default defineComponent({
         },
         lazyLoad: {
             type: Boolean
+        },
+        hideGuideLines: {
+          type: Boolean
         }
     },
     emits: ["on-rename", "onContextMenu"],
@@ -89,26 +92,23 @@ export default defineComponent({
             emit("on-rename", props.item);
         }
 
-        const chevron = ref<HTMLSpanElement>();
         const toggleExpand = (shouldSet: boolean = true) => {
-            chevron.value?.classList.toggle("rotate-90");
-            if (shouldSet)
+            /// `expanded` can be set programmatically. When this is the case `shouldSet` is false
+            /// see watch(props.item.expanded)
+            /// the component should not bother flipping the expanded or firing the 
+            /// expanded/collapsed events.
+
+            if (shouldSet) {
               props.item.expanded = !props.item.expanded;
-
-            if (props.item.expanded)
-              treeState.emitItemExpanded(props.item);
-            else
-              treeState.emitItemCollapsed(props.item);
-
-            const element = document.getElementById(props.item.id)?.getElementsByClassName('node-child');
-            
-            if (!element || !element[0]) return;
-            element[0].classList.toggle('hide');
+              if (props.item.expanded)
+                treeState.emitItemExpanded(props.item);
+              else
+                treeState.emitItemCollapsed(props.item);
+            }
         }
 
         return {
             toggleExpand,
-            chevron,
             treeState,
             updateCheckState,
             isRenaming,

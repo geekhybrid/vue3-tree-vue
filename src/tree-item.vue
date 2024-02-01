@@ -1,10 +1,10 @@
 <template>
   <div class="d-flex align-items-center" @contextmenu.prevent="$emit('onContextMenu', { item, event: $event })">
-    <div class="horizontal-dashes" v-if="parent != null"></div>
+    <div class="guide-line" v-if="parent != null && !hideGuideLines"></div>
 
     <div @click="toggleExpand()" v-show="lazyLoad || item.children && item.children.length > 0">
-      <slot name="expander">
-        <span class="chevron-right" ref="chevron"></span>
+      <slot name="expander" v-bind="item">
+        <span class="chevron-right" :class="{'rotate-90' : item.expanded }"></span>
       </slot>
     </div>
 
@@ -21,6 +21,8 @@
             </div>
           </div>
           <label for="checkbox" v-if="!isRenaming" class="pointer">{{ item.name }}</label>
+          &nbsp;
+          <slot name="append"></slot>
         </div>
         <div class="d-flex" v-else @click="treeState?.emitItemSelected(item)">
           <div class="tiny_horizontal_margin">
@@ -30,6 +32,8 @@
             <slot name="prepend"></slot>
           </div>
           <span>{{ item.name }}</span>
+          &nbsp;
+          <slot name="append"></slot>
         </div>
       </div>
       <input ref="rename-box" v-model="item.name" v-else v-on:keyup.enter="finishRenaming" @blur="finishRenaming" />

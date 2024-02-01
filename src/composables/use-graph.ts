@@ -52,6 +52,9 @@ export function useGraph(
     }
 
     const emitItemSelected = (node: TreeViewItem) => {
+        if (node.disabled === true) {
+            return;
+        }
         itemSelectedEventHandler(node);
         Object.values(nodeLookUp).forEach(node => node.selected = false);
         node.selected = true;
