@@ -3,21 +3,82 @@
   color: white;
 }
 
-.tree-item:hover .on-item-hover {
-  display: block;
+.tree-item:hover .on-item-hover{
+display: block;
 }
 
-.tree-item .on-item-hover {
-  display: none;
+.tree-item .on-item-hover{
+display: none;
 }
 
-.tree-item-node:hover li>.on-item-hover {
-  display: block;
+.tree-item-node:hover li > .on-item-hover{
+display: block;
+}
+
+.tree-item-node li > .on-item-hover{
+display: none;
 }
 
 
-.tree-item-node li>.on-item-hover {
-  display: none;
+.no-guide .tree-item-node {
+border: none !important;
+}
+.no-guide .tree-item-node::before {
+border: none !important;
+}
+
+.no-guide .guide-line {
+border: none !important;
+}
+
+.no-guide .guide-line::before {
+border: none !important;
+}
+
+
+
+/**
+  * Create Vertical Guideline
+  * Add a dashed border to the left of all but the last child in a parent node.
+  * There will be a gap between the bottom of this tree-item-node and the top of the next sibling.
+  */
+  .node-child  .tree-item-node-parent .tree-item-node:not(:last-child) {
+  position: relative;
+  border-left: 1px dashed rgb(192, 192, 192);
+  border-radius: 0;
+}
+
+/**
+  * Fill in gap on Vertical Guideline
+  * use the ::before pseudo-element to create a dashed line that extends down to the next sibling.
+  * This will be applied to all but the last child in a parent node, and fill in the gap mentioned above.
+  */
+  .node-child  .tree-item-node-parent .tree-item-node:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  top: 100%; /* Extend below the actual element */
+  left: -1px; /* Match the border-left width */
+  height: 1em; /* Adjust the desired height */
+  border-left: 1px dashed rgb(192, 192, 192);
+}
+
+
+.tree-item-node:only-child  .tree-view-item{
+  position: relative; /* Needed to position the ::before pseudo-element */
+}
+
+/**
+* Create Vertical Guideline for only-children
+* Since we rely on the previous sibling to fill in the gap by extending down, 
+* only-child elements will need to extend up to fill in the gap.
+*/
+.node-child  .tree-item-node-parent .tree-item-node:only-child >  .tree-view-item >  .guide-line::before {
+  content: "";
+  position: absolute;
+  bottom: 50%; /* Extend above the actual element */
+  left: -1px; /* Match the border-left width */
+  height: 1em; /* Extend 20px above the element */
+  border-left: 1px dashed rgb(192, 192, 192);
 }
 
 
@@ -99,7 +160,6 @@ li {
 .node-child {
   text-align: left;
   display: block;
-  border-left: 1px dashed rgb(192, 192, 192);
 }
 
 .hide {
@@ -114,7 +174,7 @@ li {
   box-sizing: border-box;
   position: relative;
   display: block;
-  transform: scale(var(--ggs, 1));
+  transform: scale(var(--ggs,1));
   width: 22px;
   height: 22px;
   border: 2px solid transparent;
