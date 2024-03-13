@@ -31,7 +31,9 @@
           <div class="tiny_horizontal_margin">
             <slot name="prepend"></slot>
           </div>
-          <span>{{ item.name }}</span>
+          <slot name="name">
+            <span>{{ item.name }}</span>
+          </slot>
           &nbsp;
           <slot name="append"></slot>
         </div>
