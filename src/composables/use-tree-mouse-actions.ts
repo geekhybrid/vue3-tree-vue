@@ -43,23 +43,26 @@ export function useTreeViewItemMouseActions() {
         if (event.dataTransfer) {
             removeHoverClass(event)
             const droppedNode = JSON.parse(event.dataTransfer.getData('text/plain')) as _InternalItem;
-            if (!isDropValid || !isDropValid(droppedNode, dropHost)) return;
 
+            if (!isDropValid) return;
 
-            
             if (dropHost && droppedNode.id === dropHost.id) {
                 return
             }
-            
-            state!.detach(droppedNode.id);
 
-            if (dropHost && !dropHost.children)
-                dropHost.children = [];
+            isDropValid(droppedNode, dropHost).then((canDrop) => {
+                if (canDrop) {
+                    state!.detach(droppedNode.id);
 
-            if(dropHost)
-              dropHost!.children!.push(droppedNode);
-            else
-              state!.attach(droppedNode);// Dropping into root
+                    if (dropHost && !dropHost.children)
+                        dropHost.children = [];
+        
+                    if(dropHost)
+                      dropHost!.children!.push(droppedNode);
+                    else
+                      state!.attach(droppedNode);// Dropping into root
+                }
+            });
         }
     }
 
