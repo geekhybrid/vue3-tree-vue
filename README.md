@@ -29,14 +29,17 @@ import 'vue3-tree-vue/dist/style.css'; // remember to add this in your component
   setup() {
     const onItemChecked = (checkedItems: TreeViewItem[]) => console.log(checkedItems);
     const onItemSelected = (item: TreeViewItem) => console.log(item);
-    const onBeforeItemDropped = (droppedItem: TreeViewItem, dropHost: TreeViewItem | undefined) => {
-      // dropHost == undefined means dropping at the root of the tree.
+    
+    // How to handle drag and drop logic
+    const onBeforeItemDropped = (droppedItem: TreeViewItem, destinationNode: TreeViewItem | undefined) => {
+      // destinationNode == undefined means dropping at the root of the tree.
       
       // Here you can specify any kind of drop validation you will like.
       // this function should return true if the drop operation is valid.
 
-      if (dropHost.type !== playlist) return false
-      return true;
+      return new Promise((resolve, _) => {
+        resolve(droppedItem !== destinationNode) // Replace this logic with your logic.
+      });
     }
     const onItemExpanded = (expandedItem: TreeViewItem) => {
       //to use this feature properly you need to set lazyLoad property as true 
