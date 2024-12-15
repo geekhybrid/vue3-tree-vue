@@ -87,6 +87,7 @@ export interface TreeViewItem {
   checked?: boolean;
   selected?: boolean;
   expanded?: boolean;
+  disableDragAndDrop?: boolean; // Disable drag and drop for a specific node.
   disabled?: boolean;// When disabled, an item can neither be selected nor checked
   meta?: any;// provides meta-data of any type per node.
 }

@@ -71,8 +71,5 @@
   },
   "engines": {
     "node": ">=12"
-  },
-  "dependencies": {
-    "user": "^0.0.0"
   }
 }

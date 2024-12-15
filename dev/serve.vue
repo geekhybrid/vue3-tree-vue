@@ -101,7 +101,7 @@ export default defineComponent({
   </div>
 </template>
 
-<style scoped>
+<style>
 * {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 14px;
@@ -114,4 +114,9 @@ button {
     color: blue;
     cursor: pointer;
 }
+
+.selected-tree-item {
+  background: blue !important;
+}
+
 </style>
