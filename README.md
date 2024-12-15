@@ -30,7 +30,6 @@ import 'vue3-tree-vue/dist/style.css'; // remember to add this in your component
     const onItemChecked = (checkedItems: TreeViewItem[]) => console.log(checkedItems);
     const onItemSelected = (item: TreeViewItem) => console.log(item);
 
-
     // How to handle drag and drop logic
     const onBeforeItemDropped = (droppedItem: TreeViewItem, destinationNode: TreeViewItem | undefined) => {
           // destinationNode == undefined means dropping at the root of the tree.
@@ -91,6 +90,7 @@ export interface TreeViewItem {
   checked?: boolean;
   selected?: boolean;
   expanded?: boolean;
+  disableDragAndDrop?: boolean; // Disable drag and drop for a specific node.
   disabled?: boolean;// When disabled, an item can neither be selected nor checked
   meta?: any;// provides meta-data of any type per node.
 }

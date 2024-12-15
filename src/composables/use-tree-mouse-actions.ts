@@ -34,6 +34,7 @@ export function useTreeViewItemMouseActions() {
     }
 
     const onDragNode = (item: TreeViewItem, event: DragEvent): void => {
+        if (item.disableDragAndDrop) return;
         if (event.dataTransfer) {
             event.dataTransfer.setData('text/plain', JSON.stringify(item));
         }
@@ -46,7 +47,7 @@ export function useTreeViewItemMouseActions() {
 
             if (!isDropValid) return;
 
-            if (dropHost && droppedNode.id === dropHost.id) {
+            if (dropHost && droppedNode.id === dropHost.id || droppedNode.disableDragAndDrop) {
                 return
             }
 

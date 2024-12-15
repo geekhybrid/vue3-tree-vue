@@ -56,8 +56,9 @@
     ]
   },
   {
-    "name": "System Design Playlist",
+    "name": "System Design Playlist (Not Draggable)",
     "id": 993029302938,
+    "disableDragAndDrop": true,
     "type": ".playlist",
     "children": [
       {
