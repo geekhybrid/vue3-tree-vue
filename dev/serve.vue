@@ -119,4 +119,13 @@ button {
   background: blue !important;
 }
 
+.red-background {
+  background: black !important;
+  color: white;
+}
+
+.bold-font {
+  font-weight: bold !important;
+}
+
 </style>
