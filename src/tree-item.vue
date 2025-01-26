@@ -2,7 +2,7 @@
   <div class="d-flex align-items-center" @contextmenu.prevent="$emit('onContextMenu', { item, event: $event })">
     <div class="guide-line" v-if="parent != null && !hideGuideLines"></div>
 
-    <div @click="toggleExpand()" v-show="lazyLoad || item.children && item.children.length > 0">
+    <div @click="toggleExpand()" v-if="lazyLoad || (item.children && item.children.length > 0)">
       <slot name="expander" v-bind="item">
         <span class="chevron-right" :class="{'rotate-90' : item.expanded }"></span>
       </slot>
