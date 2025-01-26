@@ -7,6 +7,7 @@ export interface TreeViewItem {
   expanded?: boolean;
   disabled?: boolean;
   disableDragAndDrop?: boolean;
+  styles?: string[];
   meta?: any;
 }
 

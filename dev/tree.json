@@ -2,6 +2,7 @@
   {
     "name": "Rejection Emails",
     "type": "emails",
+    "styles": ["red-background", "bold-font"],
     "expanded": true,
     "children": [
       {

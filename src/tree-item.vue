@@ -8,7 +8,7 @@
       </slot>
     </div>
 
-    <div class="pointer tree-item" :class="{ 'selected-tree-item': !isCheckable && item.selected }" style="width: 100%">
+    <div class="pointer tree-item" :class="styles" style="width: 100%">
       <div v-if="!isRenaming" @dblclick="beginRenaming">
         <div v-if="isCheckable" class="tree-item__checkbox-area">
           <input @contextmenu.prevent @change="updateCheckState" type="checkbox" ref="checkbox" :disabled="item.disabled" :class="checkboxStyle" />

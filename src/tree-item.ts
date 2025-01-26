@@ -51,6 +51,19 @@ export default defineComponent({
             }
         });
 
+        const styles = computed(() => {
+    
+            var style: Record<string, boolean | undefined> = {
+                'selected-tree-item': !props.isCheckable && props.item.selected
+            }
+
+            if (props.item.styles) {
+                props.item.styles.forEach(s => style[s] = true)
+            }
+
+            return style;
+        });
+
         const updateCheckState = () =>  {
           if (checkbox.value) {
             props.item.checked = checkbox.value.checked;
@@ -122,6 +135,7 @@ export default defineComponent({
         }
 
         return {
+            styles,
             checkbox,
             parent,
             treeState,
