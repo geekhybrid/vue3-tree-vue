@@ -34,9 +34,11 @@
                 "type": ".playlist"
               },
               {
-                "name": "Decoding hieroglyphs",
+                "name": "Decoding hieroglyphs (Not Collapsable)",
                 "id": 8,
                 "type": ".playlist",
+                "collapsable": false,
+                "expanded": true,
                 "children": [
                   {
                     "name": "List of Rejection Emails",
