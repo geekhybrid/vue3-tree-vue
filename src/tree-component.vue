@@ -1,7 +1,8 @@
 <template>
-    <div>
+    <div class="vue3-tree-vue">
       <ul id="explorer" class="explorer tree-item-node-parent"
         :class="{'no-guide': hideGuideLines}"
+        :draggable="onDropValidator != undefined"
         @dragover.stop.prevent
         @dragenter.stop.prevent
         @dragover.stop="addRootHoverClass($event, parent == null)"

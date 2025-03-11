@@ -2,13 +2,13 @@
   <div class="d-flex align-items-center" @contextmenu.prevent="$emit('onContextMenu', { item, event: $event })">
     <div class="guide-line" v-if="parent != null && !hideGuideLines"></div>
 
-    <div @click="toggleExpand()" v-show="lazyLoad || item.children && item.children.length > 0">
+    <div @click="toggleExpand()" v-if="lazyLoad || (item.children && item.children.length > 0)">
       <slot name="expander" v-bind="item">
         <span class="chevron-right" :class="{'rotate-90' : item.expanded }"></span>
       </slot>
     </div>
 
-    <div class="pointer tree-item" :class="{ 'selected-tree-item': !isCheckable && item.selected }" style="width: 100%">
+    <div class="pointer tree-item" :class="styles" style="width: 100%">
       <div v-if="!isRenaming" @dblclick="beginRenaming">
         <div v-if="isCheckable" class="tree-item__checkbox-area">
           <input @contextmenu.prevent @change="updateCheckState" type="checkbox" ref="checkbox" :disabled="item.disabled" :class="checkboxStyle" />

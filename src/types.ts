@@ -6,6 +6,8 @@ export interface TreeViewItem {
   selected?: boolean;
   expanded?: boolean;
   disabled?: boolean;
+  disableDragAndDrop?: boolean;
+  styles?: string[];
   meta?: any;
 }
 
@@ -33,4 +35,4 @@ export interface TreeEvents {
     updateSingleSelectedItem(): void;
 }
 
-export type IsValidDropCallback = (droppedItem: TreeViewItem, dropHost: TreeViewItem | undefined) => boolean;
+export type IsValidDropCallback = (droppedItem: TreeViewItem, dropHost: TreeViewItem | undefined) => Promise<boolean>;

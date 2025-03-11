@@ -3,7 +3,7 @@ import json from './tree.json';
 import Vue3TreeVue from '@/tree-component.vue';
 import { ref } from '@vue/reactivity';
 import { defineComponent } from '@vue/runtime-core';
-import { TreeViewItem } from '@/types';
+import { TreeViewItem, IsValidDropCallback } from '@/types';
 
 export default defineComponent({
   name: 'ServeDev',
@@ -16,13 +16,19 @@ export default defineComponent({
 
     const onItemChecked = (checkedItems: TreeViewItem[]) => console.table(checkedItems);
     const onItemSelected = (item: TreeViewItem) => console.log(item);
-
+  
+    const makeApiCallToSeeIfDropIsValid: IsValidDropCallback = async (_source, _destination) => {
+      await fetch('www.wikipedia.com').then(() => true);
+      return true;
+    }
+  
     return {
       isCheckable: ref(true),
       hideGuidelines: ref(false),
       items,
       onItemChecked,
-      onItemSelected
+      onItemSelected,
+      makeApiCallToSeeIfDropIsValid
     }
   }
 });
@@ -48,7 +54,7 @@ export default defineComponent({
           :isCheckable="isCheckable"
           :hideGuideLines="hideGuidelines"
           :lazy-load="false"
-          @dropValidator="(_, __) => true"
+          @dropValidator="makeApiCallToSeeIfDropIsValid"
           @onSelect="onItemSelected"
           @onCheck="onItemChecked"
           style="width: 800px; display: block; border-right: 1px solid gray;">
@@ -95,7 +101,7 @@ export default defineComponent({
   </div>
 </template>
 
-<style scoped>
+<style>
 * {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 14px;
@@ -108,4 +114,18 @@ button {
     color: blue;
     cursor: pointer;
 }
+
+.selected-tree-item {
+  background: blue !important;
+}
+
+.red-background {
+  background: black !important;
+  color: white;
+}
+
+.bold-font {
+  font-weight: bold !important;
+}
+
 </style>

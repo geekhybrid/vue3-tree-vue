@@ -31,37 +31,62 @@ export default defineComponent({
         const checkbox = ref<HTMLInputElement>();
         const parent = computed<TreeViewItem>(() => attrs.parent as TreeViewItem);
         const treeState = inject<TreeState>(_TREE_STATE_PROVIDER_INJECT_KEY)!;
-        const setCheckboxState = () => checkbox.value!.checked = props.item.checked!;
+        
+        const setCheckboxState = () => {
+            if (checkbox.value && props.item.checked !== undefined) {
+                checkbox.value.checked = props.item.checked;
+            }
+        };
 
         onMounted(() => {
             treeState.trackNode(props.item, parent.value);
             if (props.item.checked) {
-              setCheckboxState();
-              updateParentCheckState(props.item!, treeState);
+              nextTick(() => {
+                setCheckboxState();
+                updateParentCheckState(props.item!, treeState);
+              });
             }
-            else
-            {
-              props.item.checked = parent.value?.checked;
+            else if (parent.value?.checked !== undefined) {
+              props.item.checked = parent.value.checked;
             }
         });
 
-        const updateCheckState = () =>  {
-          props.item.checked = checkbox.value?.checked;
-          props.item.indeterminate = false;
+        const styles = computed(() => {
+    
+            var style: Record<string, boolean | undefined> = {
+                'selected-tree-item': !props.isCheckable && props.item.selected
+            }
 
-          updateParentCheckState(props.item!, treeState);
-          updateChildrenCheckState(props.item!, treeState);
-          treeState.emitItemCheckedChange();
+            if (props.item.styles) {
+                props.item.styles.forEach(s => style[s] = true)
+            }
+
+            return style;
+        });
+
+        const updateCheckState = () =>  {
+          if (checkbox.value) {
+            props.item.checked = checkbox.value.checked;
+            props.item.indeterminate = false;
+
+            updateParentCheckState(props.item!, treeState);
+            updateChildrenCheckState(props.item!, treeState);
+            treeState.emitItemCheckedChange();
+          }
         };
 
         watch(
             () => props.item.indeterminate, 
-            () => checkbox.value!.indeterminate = props.item.indeterminate
+            () => {
+                if (checkbox.value && props.item.indeterminate !== undefined) {
+                    checkbox.value.indeterminate = props.item.indeterminate;
+                }
+            }
         );
 
         watch(
           () => props.item.checked, 
-          () => setCheckboxState()
+          () => nextTick(setCheckboxState)
         );
 
         watch(
@@ -73,7 +98,6 @@ export default defineComponent({
           () => props.item.children?.length,
           () => props.item.children?.forEach(child => treeState?.trackNode(child, props.item))
         )
-
 
         const isRenaming = ref(false);
         const renameBox = ref<HTMLInputElement>();
@@ -99,23 +123,28 @@ export default defineComponent({
             /// expanded/collapsed events.
 
             if (shouldSet) {
-              props.item.expanded = !props.item.expanded;
-              if (props.item.expanded)
-                treeState.emitItemExpanded(props.item);
-              else
-                treeState.emitItemCollapsed(props.item);
+                props.item.expanded = !props.item.expanded;
+            }
+
+            if (props.item.expanded) {
+                treeState?.emitItemExpanded(props.item);
+            }
+            else {
+                treeState?.emitItemCollapsed(props.item);
             }
         }
 
         return {
-            toggleExpand,
+            styles,
+            checkbox,
+            parent,
             treeState,
-            updateCheckState,
             isRenaming,
+            renameBox,
+            updateCheckState,
             beginRenaming,
             finishRenaming,
-            parent,
-            checkbox
+            toggleExpand
         }
     }
 })

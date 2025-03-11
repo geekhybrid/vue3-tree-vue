@@ -18,7 +18,9 @@
         "newLine": "lf",
         "types": [
             "node",
-            "vue"
+            "vue",
+            "jest",
+            "@vue/test-utils"
         ],
         "paths": {
             "@/*": [

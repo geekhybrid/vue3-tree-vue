@@ -1,38 +1,39 @@
-.selected-tree-item {
+.vue3-tree-vue .selected-tree-item {
   background: rgba(235, 106, 59, 0.795);
   color: white;
 }
 
-.tree-item:hover .on-item-hover{
-display: block;
+.vue3-tree-vue .tree-item:hover .on-item-hover {
+  display: block;
 }
 
-.tree-item .on-item-hover{
-display: none;
+.vue3-tree-vue .tree-item .on-item-hover {
+  display: none;
 }
 
-.tree-item-node:hover li > .on-item-hover{
-display: block;
+.vue3-tree-vue .tree-item-node:hover li>.on-item-hover {
+  display: block;
 }
 
-.tree-item-node li > .on-item-hover{
-display: none;
+.vue3-tree-vue .tree-item-node li>.on-item-hover {
+  display: none;
 }
 
 
-.no-guide .tree-item-node {
-border: none !important;
-}
-.no-guide .tree-item-node::before {
-border: none !important;
+.vue3-tree-vue .no-guide .tree-item-node {
+  border: none !important;
 }
 
-.no-guide .guide-line {
-border: none !important;
+.vue3-tree-vue .no-guide .tree-item-node::before {
+  border: none !important;
 }
 
-.no-guide .guide-line::before {
-border: none !important;
+.vue3-tree-vue .no-guide .guide-line {
+  border: none !important;
+}
+
+.vue3-tree-vue .no-guide .guide-line::before {
+  border: none !important;
 }
 
 
@@ -42,7 +43,7 @@ border: none !important;
   * Add a dashed border to the left of all but the last child in a parent node.
   * There will be a gap between the bottom of this tree-item-node and the top of the next sibling.
   */
-  .node-child  .tree-item-node-parent .tree-item-node:not(:last-child) {
+.vue3-tree-vue .node-child .tree-item-node-parent .tree-item-node:not(:last-child) {
   position: relative;
   border-left: 1px dashed rgb(192, 192, 192);
   border-radius: 0;
@@ -53,18 +54,22 @@ border: none !important;
   * use the ::before pseudo-element to create a dashed line that extends down to the next sibling.
   * This will be applied to all but the last child in a parent node, and fill in the gap mentioned above.
   */
-  .node-child  .tree-item-node-parent .tree-item-node:not(:last-child)::before {
+.vue3-tree-vue .node-child .tree-item-node-parent .tree-item-node:not(:last-child)::before {
   content: "";
   position: absolute;
-  top: 100%; /* Extend below the actual element */
-  left: -1px; /* Match the border-left width */
-  height: 1em; /* Adjust the desired height */
+  top: 100%;
+  /* Extend below the actual element */
+  left: -1px;
+  /* Match the border-left width */
+  height: 1em;
+  /* Adjust the desired height */
   border-left: 1px dashed rgb(192, 192, 192);
 }
 
 
-.tree-item-node:only-child  .tree-view-item{
-  position: relative; /* Needed to position the ::before pseudo-element */
+.vue3-tree-vue .tree-item-node:only-child .tree-view-item {
+  position: relative;
+  /* Needed to position the ::before pseudo-element */
 }
 
 /**
@@ -72,109 +77,112 @@ border: none !important;
 * Since we rely on the previous sibling to fill in the gap by extending down, 
 * only-child elements will need to extend up to fill in the gap.
 */
-.node-child  .tree-item-node-parent .tree-item-node:only-child >  .tree-view-item >  .guide-line::before {
+.vue3-tree-vue .node-child .tree-item-node-parent .tree-item-node:only-child>.tree-view-item>.guide-line::before {
   content: "";
   position: absolute;
-  bottom: 50%; /* Extend above the actual element */
-  left: -1px; /* Match the border-left width */
-  height: 1em; /* Extend 20px above the element */
+  bottom: 50%;
+  /* Extend above the actual element */
+  left: -1px;
+  /* Match the border-left width */
+  height: 1em;
+  /* Extend 20px above the element */
   border-left: 1px dashed rgb(192, 192, 192);
 }
 
 
-.tree-item {
+.vue3-tree-vue .tree-item {
   padding: 0.25em;
 }
 
-ul {
+.vue3-tree-vue ul {
   padding-left: 0;
   margin: 0;
   list-style-type: none;
   display: inline-block;
 }
 
-li {
+.vue3-tree-vue li {
   border-radius: 4px;
 }
 
-.tree-item__drag-over {
+.vue3-tree-vue .tree-item__drag-over {
   background-color: rgba(22, 22, 22, 0.068) !important;
 }
 
 
-.root__drag-over {
+.vue3-tree-vue .root__drag-over {
   border-left: 6px solid #ccc !important;
 }
 
 
-.chevron-right {
+.vue3-tree-vue .chevron-right {
   color: gray;
 }
 
-.hide-chevron {
+.vue3-tree-vue .hide-chevron {
   visibility: collapse;
 }
 
-.icon-area {
+.vue3-tree-vue .icon-area {
   width: 22px;
   margin-right: 0.4em;
 }
 
-.guide-line {
+.vue3-tree-vue .guide-line {
   width: 1em;
   border-top: 1px dashed rgb(192, 192, 192);
 }
 
-.node-name {
+.vue3-tree-vue .node-name {
   cursor: pointer;
   margin-left: 5px;
 }
 
-.d-flex {
+.vue3-tree-vue .d-flex {
   display: flex;
   align-items: center;
 }
 
-.align-items-center {
+.vue3-tree-vue .align-items-center {
   align-items: center;
 }
 
-.nested {
+.vue3-tree-vue .nested {
   margin-left: 47px !important;
 }
 
-.root {
+.vue3-tree-vue .root {
   margin-left: 30px !important;
 }
 
-.tiny_horizontal_margin {
+.vue3-tree-vue .tiny_horizontal_margin {
   margin-left: 2px;
   margin-right: 2px;
 }
 
-.tree-item__checkbox-area {
+.vue3-tree-vue .tree-item__checkbox-area {
   display: flex;
   align-items: center;
 }
 
-.node-child {
+.vue3-tree-vue .node-child {
   text-align: left;
   display: block;
 }
 
-.hide {
+.vue3-tree-vue .hide {
   display: none;
 }
 
-.hide-guidelines {
+.vue3-tree-vue .hide-guidelines {
   border-left: none !important;
 }
 
-.chevron-right {
+.vue3-tree-vue .chevron-right {
   box-sizing: border-box;
   position: relative;
   display: block;
-  transform: scale(var(--ggs,1));
+  transform: scale(var(--ggs, 1));
   width: 22px;
   height: 22px;
   border: 2px solid transparent;
@@ -182,15 +190,15 @@ li {
   transition: .2s;
 }
 
-.pointer {
+.vue3-tree-vue .pointer {
   cursor: pointer;
 }
 
-.chevron-right.rotate-90::after {
+.vue3-tree-vue .chevron-right.rotate-90::after {
   transform: rotateZ(45deg);
 }
 
-.chevron-right::after {
+.vue3-tree-vue .chevron-right::after {
   content: "";
   display: block;
   box-sizing: border-box;
