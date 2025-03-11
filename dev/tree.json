@@ -34,10 +34,10 @@
                 "type": ".playlist"
               },
               {
-                "name": "Decoding hieroglyphs (Not Collapsable)",
+                "name": "Decoding hieroglyphs (Not collapsible)",
                 "id": 8,
                 "type": ".playlist",
-                "collapsable": false,
+                "collapsible": false,
                 "expanded": true,
                 "children": [
                   {
