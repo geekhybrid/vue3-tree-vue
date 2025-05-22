@@ -11,7 +11,11 @@
         <li v-for="treeViewItem in internalItems" 
             :key="treeViewItem.id"
             :id="treeViewItem.id"
-            class="tree-item-node">
+            class="tree-item-node"
+            :class="{
+                'tree-item-node-checkable': isCheckable,
+            }"
+            >
             <treeview-item class="pointer tree-view-item"
                 :item="treeViewItem"
                 :parent="parent"
