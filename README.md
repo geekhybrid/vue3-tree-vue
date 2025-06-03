@@ -91,6 +91,7 @@ export interface TreeViewItem {
   selected?: boolean;
   expanded?: boolean;
   disableDragAndDrop?: boolean; // Disable drag and drop for a specific node.
+  collapsible?: boolean; // When set to false, item can not be collapsed (children always visible)
   disabled?: boolean;// When disabled, an item can neither be selected nor checked
   styles?: string[]; // Add the .css styles for a given item
   meta?: any;// provides meta-data of any type per node.

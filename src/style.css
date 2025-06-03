@@ -147,7 +147,16 @@
   align-items: center;
 }
 
-.vue3-tree-vue .nested {
+/**
+  * children of checkable tree items need 47px left margin.
+  * Otherwise, only 27px left margin is needed.
+  */
+
+.vue3-tree-vue .nested{
+  margin-left: 27px  !important;
+}
+
+.tree-item-node-checkable > .nested {
   margin-left: 47px !important;
 }
 
