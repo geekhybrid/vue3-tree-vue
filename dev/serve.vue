@@ -84,8 +84,12 @@ export default defineComponent({
                   height="20" width="20">
           </template>
 
+          <template v-slot:item-name="treeViewItem">
+              <span style="color: red" v-if="treeViewItem.name.includes('Sheet')">{{ treeViewItem.name }}</span>
+          </template>
+
           <template v-slot:item-append="treeViewItem">
-              <span class="on-item-hover" v-if="treeViewItem.type === 'emails'"><button title="New Email"> item-append</button></span>
+              <span class="on-item-hover"><button title="New Email"> item-append</button></span>
           </template>
 
           <template v-slot:child-append="treeViewItem">
@@ -93,8 +97,6 @@ export default defineComponent({
               <button>child-append for Unsolved Problems</button>
             </span>
           </template>
-
-
         </vue3-tree-vue>
       </div>
    </div>

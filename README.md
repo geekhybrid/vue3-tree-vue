@@ -115,16 +115,100 @@ export interface TreeViewItem {
 | selected-tree-item | Defines the style for the `selectedItem`
 
 ## Slots
+
+The Vue3 Tree Vue component provides several slots for customizing the appearance and behavior of tree nodes:
+
 | Name | Description |
 | ----------- |-------------
 | item-prepend-icon | Defines the node's prepend icon.
 | item-prepend | Defines a slot to house content before the node's label. 
 | item-expander | Defines a slot for custom expander implementations 
+| item-name | Defines a slot for customizing the node's name/label display
 | item-append | Defines a slot for adding custom content after the item name 
-| child-append | Defines a slot for adding a custom item after the last child
+| child-append | Defines a slot that shows at the bottom of the child nodes for adding custom content
+
+### Slot Examples
+
+#### Custom Icons (`item-prepend-icon`)
+```vue
+<template>
+  <vue3-tree-vue :items="items">
+    <template v-slot:item-prepend-icon="treeViewItem">
+      <img src="./assets/folder.svg" alt="folder" 
+           v-if="treeViewItem.type === 'folder'"
+           height="20" width="20">
+      <img src="./assets/word.svg"
+           v-if="treeViewItem.type === '.doc'"
+           height="20" width="20">
+      <img src="./assets/excel.svg"
+           v-if="treeViewItem.type === '.excel'"
+           height="20" width="20">
+      <img src="./assets/playlist.svg"
+           v-if="treeViewItem.type === '.playlist'"
+           height="20" width="20">
+      <img src="./assets/email.png"
+           v-if="treeViewItem.type === 'emails'"
+           height="20" width="20">
+    </template>
+  </vue3-tree-vue>
+</template>
+```
+
+#### Custom Expander (`item-expander`)
+```vue
+<template>
+  <vue3-tree-vue :items="items">
+    <template v-slot:item-expander="item">
+      <span>{{ item.expanded ? '-' : '+' }}</span>
+    </template>
+  </vue3-tree-vue>
+</template>
+```
+
+#### Custom Node Names (`item-name`)
+```vue
+<template>
+  <vue3-tree-vue :items="items">
+    <template v-slot:item-name="treeViewItem">
+      <span style="color: red" v-if="treeViewItem.name.includes('Sheet')">
+        {{ treeViewItem.name }}
+      </span>
+    </template>
+  </vue3-tree-vue>
+</template>
+```
+
+
+#### Append Content (`item-append`)
+```vue
+<template>
+  <vue3-tree-vue :items="items">
+    <template v-slot:item-append="treeViewItem">
+      <span class="on-item-hover">
+        <button title="New Email">Action</button>
+      </span>
+    </template>
+  </vue3-tree-vue>
+</template>
+```
+
+#### Child Append (`child-append`)
+```vue
+<template>
+  <vue3-tree-vue :items="items">
+    <template v-slot:child-append="treeViewItem">
+      <span v-if="treeViewItem.id === 6">
+        <button>Add New Item</button>
+      </span>
+    </template>
+  </vue3-tree-vue>
+</template>
+```
 
 ## Classes 
 
 | Name | Description |
 | -------------|-------------
-| on-item-hover | Use in `child-append` and `item-append` slots to only show when the cursor is hovering on the node 
+| on-item-hover | Use in `child-append` and `item-append` slots to only show when the cursor is hovering on the node
+
+<blockquote>The `on-item-hover` class is used within slots to conditionally display elements only when a user hovers over a tree node. This provides a clean interface by hiding secondary actions until they're needed.</blockquote> 
