@@ -10,12 +10,12 @@ export default defineComponent({
         items: {
             type: Array as PropType<TreeViewItem[]>,
             required: true,
-            default: () => { return []}
+            default: () => { return [] }
         },
         isCheckable: {
             type: Boolean
         },
-        hideGuideLines : {
+        hideGuideLines: {
             type: Boolean,
             default: false
         },
@@ -26,16 +26,16 @@ export default defineComponent({
             type: Object as PropType<TreeState>
         },
         checkboxStyle: {
-          type: String
+            type: String
         },
         lazyLoad: {
             type: Boolean
         }
     },
     components: { 'treeview-item': TreeItemComponent },
-    emits: ['onContextMenu', 'onSelect', 'onCheck', 'onExpand', 'onCollapse'],
-    
-    setup(props, { emit, attrs}) {
+    emits: ['onContextMenu', 'onSelect', 'onCheck', 'onCheckedChanged', 'onExpand', 'onCollapse'],
+
+    setup(props, { emit, attrs }) {
         const reactiveItems = ref<TreeViewItem[]>([]);
 
         watch(() => props.items, () => reactiveItems.value = props.items, { immediate: true });
@@ -47,17 +47,18 @@ export default defineComponent({
         treeState.value = inject<TreeState | undefined>(_TREE_STATE_PROVIDER_INJECT_KEY, undefined);
 
         if (!treeState.value) {
-          treeState.value = useGraph(
-            reactiveItems,
-            (selectedItem: TreeViewItem) => emit('onSelect', selectedItem),
-            (checkedItems: TreeViewItem[]) => emit('onCheck', checkedItems),
-            (expandedItem: TreeViewItem) => emit('onExpand', expandedItem),
-            (collapsedItem: TreeViewItem) => emit('onCollapse', collapsedItem)
-          );
-  
-          provide<TreeState>(_TREE_STATE_PROVIDER_INJECT_KEY, treeState.value); 
+            treeState.value = useGraph(
+                reactiveItems,
+                (selectedItem: TreeViewItem) => emit('onSelect', selectedItem),
+                (checkedItems: TreeViewItem[]) => emit('onCheck', checkedItems),
+                (expandedItem: TreeViewItem) => emit('onExpand', expandedItem),
+                (collapsedItem: TreeViewItem) => emit('onCollapse', collapsedItem),
+                (changedItem: TreeViewItem) => emit('onCheckedChanged', changedItem)
+            );
+
+            provide<TreeState>(_TREE_STATE_PROVIDER_INJECT_KEY, treeState.value);
         }
-        
+
         return {
             ...useTreeViewItemMouseActions(),
             parent,

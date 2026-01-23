@@ -9,7 +9,7 @@ export default defineComponent({
             type: Object as PropType<_InternalItem>,
             required: true
         },
-        isCheckable : {
+        isCheckable: {
             type: Boolean
         },
         canRename: {
@@ -22,16 +22,16 @@ export default defineComponent({
             type: Boolean
         },
         hideGuideLines: {
-          type: Boolean
+            type: Boolean
         }
     },
     emits: ["on-rename", "onContextMenu"],
 
-    setup(props, { emit, attrs }){
+    setup(props, { emit, attrs }) {
         const checkbox = ref<HTMLInputElement>();
         const parent = computed<TreeViewItem>(() => attrs.parent as TreeViewItem);
         const treeState = inject<TreeState>(_TREE_STATE_PROVIDER_INJECT_KEY)!;
-        
+
         const setCheckboxState = () => {
             if (checkbox.value && props.item.checked !== undefined) {
                 checkbox.value.checked = props.item.checked;
@@ -41,18 +41,18 @@ export default defineComponent({
         onMounted(() => {
             treeState.trackNode(props.item, parent.value);
             if (props.item.checked) {
-              nextTick(() => {
-                setCheckboxState();
-                updateParentCheckState(props.item!, treeState);
-              });
+                nextTick(() => {
+                    setCheckboxState();
+                    updateParentCheckState(props.item!, treeState);
+                });
             }
             else if (parent.value?.checked !== undefined) {
-              props.item.checked = parent.value.checked;
+                props.item.checked = parent.value.checked;
             }
         });
 
         const styles = computed(() => {
-    
+
             var style: Record<string, boolean | undefined> = {
                 'selected-tree-item': !props.isCheckable && props.item.selected
             }
@@ -64,19 +64,20 @@ export default defineComponent({
             return style;
         });
 
-        const updateCheckState = () =>  {
-          if (checkbox.value) {
-            props.item.checked = checkbox.value.checked;
-            props.item.indeterminate = false;
+        const updateCheckState = () => {
+            if (checkbox.value) {
+                props.item.checked = checkbox.value.checked;
+                props.item.indeterminate = false;
 
-            updateParentCheckState(props.item!, treeState);
-            updateChildrenCheckState(props.item!, treeState);
-            treeState.emitItemCheckedChange();
-          }
+                updateParentCheckState(props.item!, treeState);
+                updateChildrenCheckState(props.item!, treeState);
+                treeState.emitItemCheckedChange();
+                treeState.emitItemCheckedChanged(props.item);
+            }
         };
 
         watch(
-            () => props.item.indeterminate, 
+            () => props.item.indeterminate,
             () => {
                 if (checkbox.value && props.item.indeterminate !== undefined) {
                     checkbox.value.indeterminate = props.item.indeterminate;
@@ -85,18 +86,18 @@ export default defineComponent({
         );
 
         watch(
-          () => props.item.checked, 
-          () => nextTick(setCheckboxState)
+            () => props.item.checked,
+            () => nextTick(setCheckboxState)
         );
 
         watch(
-          () => props.item.expanded,
-          () => toggleExpand(false)
+            () => props.item.expanded,
+            () => toggleExpand(false)
         )
 
         watch(
-          () => props.item.children?.length,
-          () => props.item.children?.forEach(child => treeState?.trackNode(child, props.item))
+            () => props.item.children?.length,
+            () => props.item.children?.forEach(child => treeState?.trackNode(child, props.item))
         )
 
         const isRenaming = ref(false);
