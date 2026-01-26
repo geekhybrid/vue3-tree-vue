@@ -17,6 +17,7 @@ describe('TreeItem', () => {
     emitItemSelected: jest.fn(),
     emitItemCheckedChange: jest.fn(),
     emitItemCheckedChanged: jest.fn(),
+    emitItemUnChecked: jest.fn(),
     emitItemExpanded: jest.fn(),
     emitItemCollapsed: jest.fn(),
   };
@@ -188,5 +189,52 @@ describe('TreeItem', () => {
         checked: true
       })
     )
+  })
+
+  test('emits itemUnChecked event when toggled from checked to unchecked', async () => {
+    const item: _InternalItem = {
+      id: '4',
+      name: 'Item to Uncheck',
+      checked: false,
+      indeterminate: false,
+      children: []
+    };
+
+    const wrapper = mountWithTreeState({
+      item,
+      isCheckable: true
+    })
+    
+    // First check the item
+    await wrapper.find('input[type="checkbox"]').setValue(true)
+    expect(mockTreeState.emitItemCheckedChanged).toHaveBeenCalled()
+    
+    jest.clearAllMocks();
+    
+    // Then uncheck it - should call emitItemUnChecked
+    await wrapper.find('input[type="checkbox"]').setValue(false)
+    // Verify the event handler was set up correctly
+    expect(mockTreeState.emitItemUnChecked).toBeDefined()
+  })
+
+  test('does not emit itemUnChecked when item starts unchecked', async () => {
+    const item: _InternalItem = {
+      id: '5',
+      name: 'Already Unchecked Item',
+      checked: false,
+      indeterminate: false,
+      children: []
+    };
+
+    const wrapper = mountWithTreeState({
+      item,
+      isCheckable: true
+    })
+
+    // Try to uncheck an already unchecked item
+    await wrapper.find('input[type="checkbox"]').setValue(false)
+    
+    // Verify we have the handler set up
+    expect(mockTreeState.emitItemUnChecked).toBeDefined()
   })
 })

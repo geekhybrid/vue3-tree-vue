@@ -64,6 +64,7 @@ export default defineComponent({
 
         const updateCheckState = () =>  {
           if (checkbox.value) {
+            const wasChecked = props.item.checked;
             props.item.checked = checkbox.value.checked;
             props.item.indeterminate = false;
 
@@ -71,6 +72,10 @@ export default defineComponent({
             updateChildrenCheckState(props.item!, treeState);
             treeState.emitItemCheckedChange();
             treeState.emitItemCheckedChanged(props.item);
+            
+            if (!props.item.checked && wasChecked) {
+              treeState.emitItemUnChecked(props.item);
+            }
             }
         };
 

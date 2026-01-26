@@ -17,6 +17,7 @@ describe('TreeComponent', () => {
     emitItemSelected: jest.fn(),
     emitItemCheckedChange: jest.fn(),
     emitItemCheckedChanged: jest.fn(),
+    emitItemUnChecked: jest.fn(),
     emitItemExpanded: jest.fn(),
     emitItemCollapsed: jest.fn()
   };
