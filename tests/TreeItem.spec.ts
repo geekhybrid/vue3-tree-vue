@@ -16,9 +16,14 @@ describe('TreeItem', () => {
     trackNode: jest.fn(),
     emitItemSelected: jest.fn(),
     emitItemCheckedChange: jest.fn(),
+    emitItemCheckedChanged: jest.fn(),
     emitItemExpanded: jest.fn(),
-    emitItemCollapsed: jest.fn()
+    emitItemCollapsed: jest.fn(),
   };
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
 
   const mockItem: _InternalItem = {
     id: '1',
@@ -116,5 +121,72 @@ describe('TreeItem', () => {
 
     const checkbox = wrapper.find('input[type="checkbox"]')
     expect(checkbox.attributes('disabled')).toBe('')
+  })
+
+  test('emits checkChanged event when checkbox is checked', async () => {
+    const item: _InternalItem = {
+      id: '1',
+      name: 'Test Item',
+      checked: false,
+      indeterminate: false,
+      children: []
+    };
+
+    const wrapper = mountWithTreeState({
+      item,
+      isCheckable: true
+    })
+
+    await wrapper.find('input[type="checkbox"]').setValue(true)
+    expect(mockTreeState.emitItemCheckedChanged).toHaveBeenCalledWith(item)
+  })
+
+  test('emits checkChanged event when checkbox is toggled', async () => {
+    const item: _InternalItem = {
+      id: '2',
+      name: 'Test Item',
+      checked: false,
+      indeterminate: false,
+      children: []
+    };
+
+    const wrapper = mountWithTreeState({
+      item,
+      isCheckable: true
+    })
+
+    const checkbox = wrapper.find('input[type="checkbox"]');
+    await checkbox.setValue(true)
+    expect(mockTreeState.emitItemCheckedChanged).toHaveBeenCalled()
+    
+    jest.clearAllMocks();
+    
+    await checkbox.setValue(false)
+    expect(mockTreeState.emitItemCheckedChanged).toHaveBeenCalled()
+  })
+
+  test('emits checkChanged event with correct node data on toggle', async () => {
+    const item: _InternalItem = {
+      id: '3',
+      name: 'Node to Toggle',
+      checked: false,
+      indeterminate: false,
+      children: []
+    };
+
+    const wrapper = mountWithTreeState({
+      item,
+      isCheckable: true
+    })
+
+    await wrapper.find('input[type="checkbox"]').setValue(true)
+    
+    expect(mockTreeState.emitItemCheckedChanged).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: '3',
+        name: 'Node to Toggle',
+        checked: true
+      })
+    )
   })
 })
