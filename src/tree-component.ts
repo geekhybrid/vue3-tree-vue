@@ -33,7 +33,7 @@ export default defineComponent({
         }
     },
     components: { 'treeview-item': TreeItemComponent },
-    emits: ['onContextMenu', 'onSelect', 'onCheck', 'onCheckedChanged', 'onUnChecked', 'onExpand', 'onCollapse'],
+    emits: ['onContextMenu', 'onSelect', 'onCheck', 'onCheckedChanged', 'onUnchecked', 'onExpand', 'onCollapse'],
     setup(props, { emit, attrs}) {
         const reactiveItems = ref<TreeViewItem[]>([]);
 
@@ -53,7 +53,7 @@ export default defineComponent({
             (expandedItem: TreeViewItem) => emit('onExpand', expandedItem),
             (collapsedItem: TreeViewItem) => emit('onCollapse', collapsedItem),
             (changedItem: TreeViewItem) => emit('onCheckedChanged', changedItem),
-            (unCheckedItem: TreeViewItem) => emit('onUnChecked', unCheckedItem)
+            (uncheckedItem: TreeViewItem) => emit('onUnchecked', uncheckedItem)
             );
             provide<TreeState>(_TREE_STATE_PROVIDER_INJECT_KEY, treeState.value);
         }

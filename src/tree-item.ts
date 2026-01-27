@@ -74,7 +74,7 @@ export default defineComponent({
             treeState.emitItemCheckedChanged(props.item);
             
             if (!props.item.checked && wasChecked) {
-              treeState.emitItemUnChecked(props.item);
+              treeState.emitItemUnchecked(props.item);
             }
             }
         };

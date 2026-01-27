@@ -23,7 +23,7 @@ export function useGraph(
     itemExpandedEventHandler: (expandedItem: TreeViewItem) => void,
     itemCollapsedEventHandler: (collapsedItem: TreeViewItem) => void,
     itemCheckedChangedEventHandler: (item: TreeViewItem) => void,
-    itemUnCheckedEventHandler: (item: TreeViewItem) => void): TreeState {
+    itemUncheckedEventHandler: (item: TreeViewItem) => void): TreeState {
     const childParentLookUp: Record<string | number, _InternalItem | undefined>  = {};
     const nodeLookUp: Record<string, _InternalItem> = {};
 
@@ -74,7 +74,7 @@ export function useGraph(
         emitItemCheckedChange,
         emitItemSelected,
         emitItemCheckedChanged: itemCheckedChangedEventHandler,
-        emitItemUnChecked: itemUnCheckedEventHandler,
+        emitItemUnchecked: itemUncheckedEventHandler,
         emitItemExpanded: itemExpandedEventHandler,
         emitItemCollapsed: itemCollapsedEventHandler,
         attach

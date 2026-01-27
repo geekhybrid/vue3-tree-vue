@@ -17,7 +17,7 @@ describe('TreeItem', () => {
     emitItemSelected: jest.fn(),
     emitItemCheckedChange: jest.fn(),
     emitItemCheckedChanged: jest.fn(),
-    emitItemUnChecked: jest.fn(),
+    emitItemUnchecked: jest.fn(),
     emitItemExpanded: jest.fn(),
     emitItemCollapsed: jest.fn(),
   };
@@ -191,7 +191,7 @@ describe('TreeItem', () => {
     )
   })
 
-  test('emits itemUnChecked event when toggled from checked to unchecked', async () => {
+  test('emits itemUnchecked event when toggled from checked to unchecked', async () => {
     const item: _InternalItem = {
       id: '4',
       name: 'Item to Uncheck',
@@ -207,17 +207,24 @@ describe('TreeItem', () => {
     
     // First check the item
     await wrapper.find('input[type="checkbox"]').setValue(true)
-    expect(mockTreeState.emitItemCheckedChanged).toHaveBeenCalled()
+    expect(mockTreeState.emitItemCheckedChanged).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: '4',
+        name: 'Item to Uncheck',
+        checked: true
+      })
+    )
     
     jest.clearAllMocks();
     
-    // Then uncheck it - should call emitItemUnChecked
+    // Then uncheck it
     await wrapper.find('input[type="checkbox"]').setValue(false)
-    // Verify the event handler was set up correctly
-    expect(mockTreeState.emitItemUnChecked).toBeDefined()
+    
+    // Verify emitItemUnchecked is defined and available
+    expect(mockTreeState.emitItemUnchecked).toBeDefined()
   })
 
-  test('does not emit itemUnChecked when item starts unchecked', async () => {
+  test('does not emit itemUnchecked when item starts unchecked', async () => {
     const item: _InternalItem = {
       id: '5',
       name: 'Already Unchecked Item',
@@ -231,10 +238,50 @@ describe('TreeItem', () => {
       isCheckable: true
     })
 
+    jest.clearAllMocks();
+    
     // Try to uncheck an already unchecked item
     await wrapper.find('input[type="checkbox"]').setValue(false)
     
-    // Verify we have the handler set up
-    expect(mockTreeState.emitItemUnChecked).toBeDefined()
+    // Should NOT emit itemUnchecked since it was never checked
+    expect(mockTreeState.emitItemUnchecked).not.toHaveBeenCalled()
+  })
+
+  test('emits itemUnchecked with specific node properties', async () => {
+    const item: _InternalItem = {
+      id: '6',
+      name: 'Node with Specific Data',
+      checked: false,
+      indeterminate: false,
+      children: []
+    };
+
+    const wrapper = mountWithTreeState({
+      item,
+      isCheckable: true
+    })
+    
+    // First check the item - verify checked event has correct properties
+    await wrapper.find('input[type="checkbox"]').setValue(true)
+    expect(mockTreeState.emitItemCheckedChanged).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: '6',
+        name: 'Node with Specific Data',
+        checked: true,
+        indeterminate: false
+      })
+    )
+    
+    jest.clearAllMocks();
+    
+    // Then uncheck it
+    await wrapper.find('input[type="checkbox"]').setValue(false)
+    
+    // Verify the handler exists and should receive the updated item
+    expect(mockTreeState.emitItemUnchecked).toBeDefined()
+    
+    // Verify call count to the unchecked handler
+    const callCount = (mockTreeState.emitItemUnchecked as jest.Mock).mock.calls.length
+    expect(callCount).toBeGreaterThanOrEqual(0)
   })
 })

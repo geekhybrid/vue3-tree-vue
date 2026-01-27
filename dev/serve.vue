@@ -17,6 +17,7 @@ export default defineComponent({
     const onItemChecked = (checkedItems: TreeViewItem[]) => console.table(checkedItems);
     const onItemSelected = (item: TreeViewItem) => console.log(item);
     const onItemCheckedChanged = (item: TreeViewItem) => console.log('checkChanged - nodeItem:', item);
+    const onItemUnchecked = (item: TreeViewItem) => console.log('Item unchecked:', item);
   
     const makeApiCallToSeeIfDropIsValid: IsValidDropCallback = async (_source, _destination) => {
       await fetch('www.wikipedia.com').then(() => true);
@@ -30,6 +31,7 @@ export default defineComponent({
       onItemChecked,
       onItemSelected,
       onItemCheckedChanged,
+      onItemUnchecked,
       makeApiCallToSeeIfDropIsValid
     }
   }
@@ -60,6 +62,7 @@ export default defineComponent({
           @onSelect="onItemSelected"
           @onCheck="onItemChecked"
           @onCheckedChanged="onItemCheckedChanged"
+          @onUnchecked="onItemUnchecked"
           style="width: 800px; display: block; border-right: 1px solid gray;">
           <template v-slot:item-expander="item">
             <span> {{  item.expanded ? '-' : '+' }}</span>

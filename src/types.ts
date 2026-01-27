@@ -28,7 +28,7 @@ export interface TreeState {
     emitItemSelected(node: TreeViewItem): void;
     emitItemCheckedChange(): void;
     emitItemCheckedChanged(item: TreeViewItem): void;
-    emitItemUnChecked(item: TreeViewItem): void;
+    emitItemUnchecked(item: TreeViewItem): void;
     emitItemExpanded(expandedItem: TreeViewItem): void;
     emitItemCollapsed(collapsedItem: TreeViewItem): void;
 }
