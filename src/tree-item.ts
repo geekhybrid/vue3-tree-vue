@@ -27,11 +27,10 @@ export default defineComponent({
     },
     emits: ["on-rename", "onContextMenu"],
 
-    setup(props, { emit, attrs }){
+    setup(props, { emit, attrs }) {
         const checkbox = ref<HTMLInputElement>();
         const parent = computed<TreeViewItem>(() => attrs.parent as TreeViewItem);
         const treeState = inject<TreeState>(_TREE_STATE_PROVIDER_INJECT_KEY)!;
-        
         const setCheckboxState = () => {
             if (checkbox.value && props.item.checked !== undefined) {
                 checkbox.value.checked = props.item.checked;
@@ -52,7 +51,6 @@ export default defineComponent({
         });
 
         const styles = computed(() => {
-    
             var style: Record<string, boolean | undefined> = {
                 'selected-tree-item': !props.isCheckable && props.item.selected
             }
@@ -66,13 +64,19 @@ export default defineComponent({
 
         const updateCheckState = () =>  {
           if (checkbox.value) {
+            const wasChecked = props.item.checked;
             props.item.checked = checkbox.value.checked;
             props.item.indeterminate = false;
 
             updateParentCheckState(props.item!, treeState);
             updateChildrenCheckState(props.item!, treeState);
             treeState.emitItemCheckedChange();
-          }
+            treeState.emitItemCheckedChanged(props.item);
+            
+            if (!props.item.checked && wasChecked) {
+              treeState.emitItemUnchecked(props.item);
+            }
+            }
         };
 
         watch(

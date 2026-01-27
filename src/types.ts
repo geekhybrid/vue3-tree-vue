@@ -27,6 +27,8 @@ export interface TreeState {
     trackNode(childNode: TreeViewItem, parentNode: TreeViewItem | undefined): void;
     emitItemSelected(node: TreeViewItem): void;
     emitItemCheckedChange(): void;
+    emitItemCheckedChanged(item: TreeViewItem): void;
+    emitItemUnchecked(item: TreeViewItem): void;
     emitItemExpanded(expandedItem: TreeViewItem): void;
     emitItemCollapsed(collapsedItem: TreeViewItem): void;
 }

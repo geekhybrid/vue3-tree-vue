@@ -19,9 +19,9 @@ export const updateParentCheckState = (child: TreeViewItem, state: TreeState): v
 
     if (parent.children) {
       const isEveryChildChecked = parent.children.every(child => child.checked);
-      const someUnChecked = parent.children.some(child => !child.checked);
+      const someUnchecked = parent.children.some(child => !child.checked);
       const someChecked = parent.children.some(child => child.checked || state.getNode(child.id!).indeterminate);
-      const intermediate = someChecked && someUnChecked;  
+      const intermediate = someChecked && someUnchecked;  
 
       if (isEveryChildChecked) {
         parentNode.checked = true;

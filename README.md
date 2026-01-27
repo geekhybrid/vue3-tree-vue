@@ -12,6 +12,8 @@ A Simple vue3 project for rendering items in a tree.
                    @dropValidator="onBeforeItemDropped"
                    @onSelect="onItemSelected"
                    @onExpand="onItemExpanded"
+                   @onCheckedChanged="onItemCheckedChanged"
+                   @onUnchecked="onItemUnchecked"
                    >
       <!-- Applying some simple styling to tree-items -->
        <template v-slot:item-prepend-icon="treeViewItem" >
@@ -29,6 +31,8 @@ import 'vue3-tree-vue/dist/style.css'; // remember to add this in your component
   setup() {
     const onItemChecked = (checkedItems: TreeViewItem[]) => console.log(checkedItems);
     const onItemSelected = (item: TreeViewItem) => console.log(item);
+    const onItemCheckedChanged = (checkedItem: TreeViewItem) => console.log('Item checked:', checkedItem);
+    const onItemUnchecked = (uncheckedItem: TreeViewItem) => console.log('Item unchecked:', uncheckedItem);
 
     // How to handle drag and drop logic
     const onBeforeItemDropped = (droppedItem: TreeViewItem, destinationNode: TreeViewItem | undefined) => {
@@ -102,10 +106,11 @@ export interface TreeViewItem {
 | Events      | Description |
 | ----------- | -------------
 | onSelect    | Callback function when an item is selected from the tree .Returns an `ItemEventArgs`.
-| onCheck     | Callback function when an item is checked/unchecked from the tree. 
+| onCheck     | Callback function when an item is checked/unchecked from the tree. All checked nodes are fired as an object array.
+| onCheckedChanged    | Callback function when an item is checked from the tree. The specific checked node is fired as an object. (Replaces the legacy `onCheck` behavior)
+| onUnchecked    | Callback function when an item is unchecked from the tree. The specific unchecked node is fired as an object.
 | onExpand    | Callback function when an item is expanded (Can be used for lazy-loading)
 | onCollapse    | Callback function when an item is collapsed
-
 <blockquote> The `onCheck` event may be fired more than once to show the change in state of deep hierachies. </blockquote>
 
 ## Styles
