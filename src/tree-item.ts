@@ -128,13 +128,13 @@ export default defineComponent({
 
             if (shouldSet) {
                 props.item.expanded = !props.item.expanded;
-            }
 
-            if (props.item.expanded) {
-                treeState?.emitItemExpanded(props.item);
-            }
-            else {
-                treeState?.emitItemCollapsed(props.item);
+                if (props.item.expanded) {
+                    treeState?.emitItemExpanded(props.item);
+                }
+                else {
+                    treeState?.emitItemCollapsed(props.item);
+                }
             }
         }
 
