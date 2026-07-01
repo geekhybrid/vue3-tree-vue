@@ -1,5 +1,8 @@
 import { defineConfig } from 'vitepress'
 import { fileURLToPath, URL } from 'node:url'
+import { createRequire } from 'node:module'
+
+const require = createRequire(import.meta.url)
 
 // Resolve the library straight from this repo's source so the docs always
 // render the current code (single Vue instance — see docs/.vitepress/theme/compile.ts).
@@ -7,6 +10,13 @@ import { fileURLToPath, URL } from 'node:url'
 // entry.esm.ts, which relies on the library's own "@/" alias — a global "@/"
 // alias here would hijack VitePress's own internal "@/" imports.
 const libEntry = fileURLToPath(new URL('../../src/tree-component.vue', import.meta.url))
+
+// The library source lives OUTSIDE docs/, so its bare `import ... from 'vue'`
+// can't be resolved by walking up from src/ when only docs/node_modules is
+// installed (e.g. Vercel with Root Directory = docs). Pin the bare `vue`
+// specifier to this docs' own Vue so the aliased source builds — and dedupe it
+// so the tree still runs under a single Vue instance (needed for provide/inject).
+const vueRuntime = require.resolve('vue/dist/vue.runtime.esm-bundler.js')
 
 export default defineConfig({
   title: 'vue3-tree-vue',
@@ -93,9 +103,15 @@ export default defineConfig({
 
   vite: {
     resolve: {
+      // Keep a single Vue instance across VitePress, the docs, and the
+      // source-aliased library (provide/inject relies on this).
+      dedupe: ['vue'],
       alias: [
         // Render the library from source instead of an installed package.
-        { find: 'vue3-tree-vue', replacement: libEntry }
+        { find: 'vue3-tree-vue', replacement: libEntry },
+        // Exact-match only, so `vue/server-renderer`, `vue/compiler-sfc`, etc.
+        // still resolve normally.
+        { find: /^vue$/, replacement: vueRuntime }
       ]
     }
   }
