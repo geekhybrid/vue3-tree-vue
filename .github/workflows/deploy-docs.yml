@@ -1,0 +1,79 @@
+# Deploys the VitePress docs site (docs/) to Vercel whenever the package
+# version is bumped on main — i.e. when the "version" field in package.json
+# changes between a commit and its parent.
+#
+# Required repository secrets (Settings → Secrets and variables → Actions):
+#   VERCEL_TOKEN        Personal token from https://vercel.com/account/tokens
+#   VERCEL_ORG_ID       From docs/.vercel/project.json after `vercel link`
+#   VERCEL_PROJECT_ID   From docs/.vercel/project.json after `vercel link`
+#
+# The Vercel project should have its Root Directory set to `docs`, which makes
+# Vercel read docs/vercel.json for the build & output settings.
+
+name: Deploy Docs to Vercel
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'package.json'
+  # Allow manual deploys from the Actions tab regardless of a version change.
+  workflow_dispatch:
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Need the previous commit to diff the version.
+          fetch-depth: 2
+
+      - name: Detect version change
+        id: version
+        run: |
+          NEW=$(node -p "require('./package.json').version")
+          git show HEAD~1:package.json > /tmp/prev-package.json 2>/dev/null || echo '{}' > /tmp/prev-package.json
+          OLD=$(node -p "require('/tmp/prev-package.json').version || ''")
+          echo "Previous version: '$OLD' → New version: '$NEW'"
+          if [ "$NEW" != "$OLD" ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+          echo "version=$NEW" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Node.js
+        if: steps.version.outputs.changed == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Vercel CLI
+        if: steps.version.outputs.changed == 'true'
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel project settings
+        if: steps.version.outputs.changed == 'true'
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build docs
+        if: steps.version.outputs.changed == 'true'
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy to Vercel
+        if: steps.version.outputs.changed == 'true'
+        run: |
+          URL=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
+          echo "Deployed v${{ steps.version.outputs.version }} to $URL"
+          echo "### 🚀 Docs deployed for v${{ steps.version.outputs.version }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "$URL" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Skipped (no version change)
+        if: steps.version.outputs.changed != 'true'
+        run: echo "package.json changed but the version did not — skipping deploy."

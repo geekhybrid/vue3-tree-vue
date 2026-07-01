@@ -1,5 +1,7 @@
 A Simple vue3 project for rendering items in a tree.
 
+📖 **[Interactive documentation with live, editable examples →](https://github.com/geekhybrid/vue3-tree-vue)** (see the `docs/` directory — run `npm --prefix docs install && npm --prefix docs run docs:dev`).
+
 `npm i vue3-tree-vue`
 
 
@@ -111,6 +113,7 @@ export interface TreeViewItem {
 | onUnchecked    | Callback function when an item is unchecked from the tree. The specific unchecked node is fired as an object.
 | onExpand    | Callback function when an item is expanded (Can be used for lazy-loading)
 | onCollapse    | Callback function when an item is collapsed
+| onContextMenu    | Callback function when an item is right-clicked. Returns `{ item, event }` (the node and the native `MouseEvent`). Useful for building custom context menus.
 <blockquote> The `onCheck` event may be fired more than once to show the change in state of deep hierachies. </blockquote>
 
 ## Styles

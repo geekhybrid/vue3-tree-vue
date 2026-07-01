@@ -1,0 +1,184 @@
+:root {
+  --vp-c-brand-1: #369870;
+  --vp-c-brand-2: #42b883;
+  --vp-c-brand-3: #42b883;
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(120deg, #42b883, #347474);
+
+  /* Typography ------------------------------------------------------------ */
+  /* Body & UI: Inter · Code: JetBrains Mono */
+  --vp-font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Helvetica, Arial, sans-serif;
+  --vp-font-family-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular,
+    'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+  /* Headings & display: Geist */
+  --doc-font-heading: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, sans-serif;
+}
+
+/* Headings and hero use Geist with tighter tracking for a crisper look. */
+.vp-doc h1,
+.vp-doc h2,
+.vp-doc h3,
+.vp-doc h4,
+.vp-doc h5,
+.vp-doc h6,
+.VPHero .name,
+.VPHero .text,
+.VPFeature .title,
+.VPHomeHero .name,
+h1.title {
+  font-family: var(--doc-font-heading);
+  letter-spacing: -0.02em;
+  font-weight: 650;
+}
+
+.VPHero .name,
+.VPHero .text {
+  letter-spacing: -0.03em;
+}
+
+/* Slightly more comfortable reading rhythm for body copy. */
+.vp-doc p,
+.vp-doc li {
+  line-height: 1.75;
+}
+
+/* Sharper rendering for the webfonts. */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Give live previews a subtle canvas so the tree stands out from prose.
+   The tree uses DM Sans so it reads as a clean UI component, distinct from
+   the Inter body copy. */
+.live-example__preview .vue3-tree-vue,
+.live-example__preview .vue3-tree-vue * {
+  font-family: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+.live-example__preview .vue3-tree-vue {
+  /* Match the page body text size (VitePress .vp-doc p is 16px). */
+  font-size: 16px;
+}
+
+/* Demo helper classes referenced by snippets (mirrors dev/serve.vue). */
+.bold-font {
+  font-weight: 700;
+}
+.selected-tree-item {
+  background: var(--vp-c-brand-1) !important;
+  color: #fff;
+  border-radius: 4px;
+}
+.fancy-checkbox {
+  accent-color: var(--vp-c-brand-1);
+  width: 16px;
+  height: 16px;
+}
+
+/* Context-menu popup used by the context-menu demo. */
+.demo-ctx {
+  position: fixed;
+  z-index: 50;
+  min-width: 168px;
+  padding: 4px;
+  background: var(--vp-c-bg);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+  font-size: 13px;
+}
+.demo-ctx__label {
+  padding: 4px 12px 6px;
+  color: var(--vp-c-text-3);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.demo-ctx__item {
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  color: var(--vp-c-text-1);
+}
+.demo-ctx__item:hover {
+  background: var(--vp-c-default-soft);
+  color: var(--vp-c-brand-1);
+}
+.demo-ctx__item--danger {
+  color: #e11d48;
+}
+.demo-ctx__item--danger:hover {
+  background: rgba(225, 29, 72, 0.12);
+  color: #e11d48;
+}
+.demo-ctx__sep {
+  height: 1px;
+  margin: 4px 6px;
+  background: var(--vp-c-divider);
+}
+
+/* Inline loader used by the lazy-loading demo's item-append slot. */
+.tree-loader {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--vp-c-text-3);
+}
+.tree-spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--vp-c-divider);
+  border-top-color: var(--vp-c-brand-1);
+  border-radius: 50%;
+  animation: tree-spin 0.7s linear infinite;
+}
+@keyframes tree-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Standard Bootstrap-style checkboxes (applied via checkboxStyle prop). */
+.bootstrap-check {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  flex: none;
+  margin-top: 1px;
+  vertical-align: middle;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 0.25em;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+  print-color-adjust: exact;
+}
+.bootstrap-check:checked {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+}
+.bootstrap-check:indeterminate {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3e%3c/svg%3e");
+}
+.bootstrap-check:focus {
+  outline: 0;
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+.bootstrap-check:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}

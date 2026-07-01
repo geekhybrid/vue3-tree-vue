@@ -1,6 +1,6 @@
 {
   "name": "vue3-tree-vue",
-  "version": "2.0.15",
+  "version": "2.0.16",
   "description": "",
   "license": "MIT",
   "repository": {
@@ -37,7 +37,10 @@
     "build:unpkg": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format iife",
     "postbuild": "rimraf ./dist/types/dev ./dist/types/src/entry.d.ts",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "docs:dev": "npm --prefix docs run docs:dev",
+    "docs:build": "npm --prefix docs run docs:build",
+    "docs:preview": "npm --prefix docs run docs:preview"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
