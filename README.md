@@ -1,6 +1,6 @@
 A Simple vue3 project for rendering items in a tree.
 
-📖 **[Interactive documentation with live, editable examples →](https://github.com/geekhybrid/vue3-tree-vue)** (see the `docs/` directory — run `npm --prefix docs install && npm --prefix docs run docs:dev`).
+📖 **[Interactive documentation with live, editable examples →](https://vue3-tree-vue-git-main-ekleans-projects.vercel.app)** (see the `docs/` directory — run `npm --prefix docs install && npm --prefix docs run docs:dev`).
 
 `npm i vue3-tree-vue`
 
